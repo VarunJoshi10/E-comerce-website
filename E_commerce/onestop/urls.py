@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.hp, name="hp"),
     path('accounts/', include('allauth.urls')),
     path('landing/', views.landing_page, name="landing"),
+    path('signup/',views.signup, name='signup')
 ]

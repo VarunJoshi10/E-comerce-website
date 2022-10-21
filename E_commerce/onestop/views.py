@@ -17,3 +17,6 @@ def hp(request):
 
 def landing_page(request):
     return render(request, 'landing.html')
+
+def signup(request):
+    return render(request, 'signup.html')
