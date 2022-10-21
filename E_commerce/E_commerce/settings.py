@@ -122,8 +122,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = 'static/'
+
+# Added manually
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -141,18 +145,19 @@ AUTHENTICATION_BACKENDS = [
 
 # Adding manually
 SITE_ID = 2
-LOGIN_REDIRECT_URL = '/landing'
+LOGIN_URL = 'main'
+LOGIN_REDIRECT_URL = 'landing'
+
+# Most important line
+# This will directly show the google accounts page
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # This too
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '838525521616-j4nhafvnp4airqk0abb76o9onvo6k2bi.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
+        'SCOPE': [
+         'profile',
+         'email',
+        ]
     }
 }

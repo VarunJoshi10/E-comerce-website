@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +10,14 @@
 </head>
 <body>
     {% if user.is_authenticated %}
-        This is it
+        This is it {{user}}
     {% else %}
         Hat sale!!
         
-        <form method="post" action="accounts/login/">
-            {% csrf_token %}
-            <input type="submit" name="click">
+        <form method="POST" action="{% url 'landing' %}">
+            {% csrf_token %} -->
+            <!-- <input type="submit" name="click" > -->
+            <button><a href="{% provider_login_url 'google'%}?next=/">Ok </a></button>
         </form>
     {% endif %}
 </body>
