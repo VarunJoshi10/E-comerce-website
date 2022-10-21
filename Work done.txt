@@ -1,1 +1,2 @@
-20-10-2022 Google Authentication base code done
+20-10-2022, 21-10-2022 Google Authentication base code done
+21-10-2022 main page added with api integrated
