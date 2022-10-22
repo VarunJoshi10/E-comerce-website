@@ -6,7 +6,7 @@ from allauth.socialaccount.models import SocialAccount
 
 # Create your views here.
 
-def hp(request):
+def main(request):
     return render(request, 'main.html')
 
 def landing_page(request):

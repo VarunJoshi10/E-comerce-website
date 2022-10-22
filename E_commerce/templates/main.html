@@ -39,7 +39,8 @@
     </div>
     <div id="signin_container">
         <!-- Action and method added -->
-        <form method="post" action="/templates/landing.html">
+        <form method="post" action="landing/">
+            {% csrf_token %}
             <h2>Sign In</h2>
             <label for="">Email</label><br />
             <input id="mail" type="text" placeholder="Enter Email"><br />

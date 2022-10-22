@@ -33,7 +33,8 @@
         </div>
     </div>
     <div id="signup_container">
-    <form>
+    <form method="post" action="/landing/">
+        {% csrf_token %}
         <h2>Sign Up</h2>
         <label for="">Full Name</label><br />
         <input id="name" type="text" placeholder="Enter Your Full Name"><br />
@@ -51,7 +52,7 @@
 </body>
 </html>
 
-<script>
+{% comment %} <script>
     document.querySelector("form").addEventListener("submit",myfunction);
     let formtag=document.querySelector("form");
     let userarr=JSON.parse(localStorage.getItem("userdata"))|| [];
@@ -77,4 +78,4 @@
        window.location.replace("signin.html")
     }
     
-</script>
+</script> {% endcomment %}
