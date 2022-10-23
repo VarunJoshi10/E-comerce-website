@@ -21,24 +21,37 @@ def main(request):
 
 def landing_page(request):
     if request.method == 'POST':
-        user_name = request.POST.get('name')
-        user_pass = request.POST.get('pass')
+        if request.POST.get('btn_name') == 'Sign In':
+            user_name = request.POST.get('name')
+            user_pass = request.POST.get('pass')
 
-        user = authenticate(username = user_name, password = user_pass)
+            user = authenticate(username = user_name, password = user_pass)
 
-        if user is not None:
-            messages.success(request,f'Successfully signed in as {user}.')
-            return render(request, 'landing.html',context={'uname':user})
-        else:
-            messages.error(request,'Please check credentials again')
-            return redirect('/')
+            if user is not None:
+                messages.success(request,f'Successfully signed in as {user}.')
+                return render(request, 'landing.html',context={'uname':user})
+            else:
+                messages.error(request,'Please check credentials again')
+                return redirect('/')
+            
+        elif request.POST.get('btn_name') == 'Sign up':
+            u_name = request.POST.get('uname')
+            u_email = request.POST.get('email')
+            u_pass = request.POST.get('pass')
+
+            new_user = User.objects.create_user(u_name,u_email,u_pass)
+            new_user.save()
+
+            messages.success(request, 'User created and logged in successfully!!')
+
+            return render(request, 'landing.html',context={'uname':new_user})
         
     else:
         # Taking details later on taken out the details whichever wanting 
         # user_id is of social account id
         details = SocialAccount.objects.filter(user=request.user).values()
         print(details)
-        return render(request, 'landing.html',context={'uname':request.user.id})
+        return render(request, 'landing.html',context={'uname':request.user})
 
 
 
