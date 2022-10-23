@@ -1,2 +1,5 @@
 20-10-2022, 21-10-2022 Google Authentication base code done
 21-10-2022 main page added with api integrated
+23-10-2022 Creating new from signup page done
+           Admin site minor changes done
+           Logout logic done
