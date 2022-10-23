@@ -4,11 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- For the alert message -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Document</title>
 </head>
 <body>
+    <!-- Added to print the error or success messages -->
+    {% if messages %}
+                
+            {% for message in messages %}
+
+                    {% if message.tags == 'error' %} 
+                        <!--Added from w3schools-->
+                        <div class="alert alert-danger alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Login Failed!!</strong> {{message}}
+                        </div>
+                    {% endif %}
+            
+                    {% if message.tags == 'success' %} 
+                        <!--Added from w3schools-->
+                        <div class="alert alert-success alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{message}}</strong> 
+                        </div>
+                    {% endif %}
+                    
+                {% endfor %}
+            
+        {% endif %}
     {% csrf_token %}
+    
     We got your back
-    {{user}}
+    {{ uname }}
+
+    <form method="post" action="/">
+        {% csrf_token %}
+        <input type="submit" value="logout" name="btn_name">
+    </form>
 </body>
 </html>
