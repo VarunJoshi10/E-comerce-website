@@ -22,3 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('onestop.urls'))
 ]
+
+
+admin.site.site_header = "OneStop Administration"
+admin.site.site_title = "OneStop Admin Portal"
+admin.site.index_title = "Welcome to OneStop"
