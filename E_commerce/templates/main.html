@@ -76,20 +76,18 @@
             <label for="">Password</label><br />
             <input id="pass" name="pass" type="text" placeholder="Enter Password"><br />
            
-            <p>By signing in, I accept the Myntra <a href="https://www.myntra.com/termsofuse">Terms of 
-                Services</a> and acknowlwdge the <a href="https://www.myntra.com/faqs#shipping">Privacy Policy</a>. </p>
-                <input type="submit" value="Sign In" name="btn_name">
+            <input type="submit" value="Sign In" name="btn_name">
             
-                <p>Don't have an account? <a href="/signup/">Sign up</a> </p> 
-                <!-- href linked changed by pie -->
-                <a class="oauth-container btn darken-4 white black-text" href="{% provider_login_url 'google'%}?next=/landing" style="text-transform:none">
-                    <div class="left">
-                    
-                            <img width="20px" style="margin-top:7px; margin-right:8px" alt="Google sign-in" 
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-                    </div>
-                    Login with Google
-                </a>
+            <!--Please make sure to place this google icon in the right place-->
+            <!-- href linked changed by pie -->
+            <a class="oauth-container btn darken-4 white black-text" href="{% provider_login_url 'google'%}?next=/landing" style="text-transform:none">
+                <div class="left">
+                
+                    <img style="margin-top:7px; margin-right:8px ;height:50px " alt="Google sign-in" src="/media/images/google_img.png"/>
+                </div>
+            </a>
+
+            <p>Don't have an account? <a href="/signup/">Sign up</a> </p> 
         </form>
     </div>
     </body>
