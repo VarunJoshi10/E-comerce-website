@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Manually added
     'django.contrib.sites',
-    'onestop',
+    # 'onestop',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    # Registering app
+    'onestop.apps.OnestopConfig'
 ]
 
 MIDDLEWARE = [
