@@ -19,7 +19,7 @@ def main(request):
         return render(request, 'main.html')
 
 
-def landing_page(request):
+def landing_page(request):      
     if request.method == 'POST':
         if request.POST.get('btn_name') == 'Sign In':
             user_name = request.POST.get('name')
@@ -45,6 +45,9 @@ def landing_page(request):
             messages.success(request, 'User created and logged in successfully!!')
 
             return render(request, 'landing.html',context={'uname':new_user})
+
+        elif request.POST.get('btn_name') == 'go_home':
+            return render(request, 'landing.html')
         
     else:
         # Taking details later on taken out the details whichever wanting 
@@ -59,3 +62,13 @@ def signup(request):
     # if request.method == 'POST':
     #     pass
     return render(request, 'signup.html')
+
+
+def mens_main(request):
+    return render(request, 'mens_main.html')
+
+def women_main(request):
+    return render(request, 'women_main.html')
+
+def kids_main(request):
+    return render(request, 'kids_main.html')
