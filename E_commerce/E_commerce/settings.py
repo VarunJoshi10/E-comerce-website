@@ -46,14 +46,14 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     # Registering app
-    'onestop.apps.OnestopConfig'
+    'onestop.apps.OnestopConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -154,6 +154,10 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 2
 LOGIN_URL = 'main'
 LOGIN_REDIRECT_URL = 'landing'
+
+# Razorpay
+RAZOR_KEY_ID = 'rzp_test_PZGWL5gE7FYe7Y'
+RAZOR_KEY_SECRET = 'TaA8ARxIFXjDuUEsKVoOiPx1'
 
 # Most important line
 # This will directly show the google accounts page
