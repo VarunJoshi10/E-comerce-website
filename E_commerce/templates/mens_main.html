@@ -7,13 +7,13 @@
     <title>Mens Page</title>
     <link rel="stylesheet" href="/static/mens_main.css">
     <link rel="stylesheet" href="/static/navbar.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
 </head>
 <body>
     <!-- Start of NavBar -->
     <div id="navbar">
         <div>
-            <a href="/landing/"><img class="wth" src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Myntra_Logo.png" alt="logo"></a>
+            <a href="/landing/"><img class="wth" style="height: 1000px;" src="/media/images/logo.png" alt="logo"></a>
         </div>
         
         <div id="products_page">
@@ -109,6 +109,36 @@
         <!-- End of the right section -->
     </div>
     <!-- End of the Main container -->
+
+    <button id="rzp-button1">Pay</button>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
+            "name": "Acme Corp",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "http://127.0.0.1:8000/mens/",
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"  
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+    </script>
 
 </body>
 </html>
