@@ -7,9 +7,7 @@
     <title>Myntra For Kids</title>
     <link rel="stylesheet" href="/static/kids_main.css" />
     <link rel="stylesheet" href="/static/navbar.css"/>
-<<<<<<< HEAD
     <script src="/static/living.js"> </script>
-=======
     <style>
       *{
     margin: 0;
@@ -28,7 +26,7 @@
     width: 400px;
     background: #ecedef;
     padding: 40px;
-    position: absolute;
+    {% comment %} position: absolute; {% endcomment %}
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
@@ -111,7 +109,6 @@
     transform: scale(1.06);
   }
    </style> 
->>>>>>> ce31bd60c3e2108bd0d517cecd059c4414bd969c
   </head>
   <body>
     <div id="navbar">
@@ -221,19 +218,23 @@
             <span>>50% off</span><br>
           </div>
       </div>
+      {% for i in '01'|make_list %}
+    {{ forloop.counter }}
       <div class="product-card">
         <h1>Sample Product</h1>
         <p>Lorem ipsum, or lipsum as it is sometimes known</p>
         <div class="product-pic"></div>
-        <div class="product-colors">
+        <!-- <div class="product-colors">
           <span class="blue active" data-color="#7ed6df" data-pic="url(https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/13374272/2022/1/1/6327ebd6-7a7b-48b7-be42-d3b7d97bd58a1641030225627SaralHomeBrownBeigeColourblockedAnti-SkidBedRunner1.jpg)"></span>
           
-        </div>
+        </div> -->
         <div class="product-info">
           <div class="product-price">$90</div>
           <a href="#" class="product-button">Add to Cart</a>
         </div>
       </div>
+      {% endfor %}
+    
       <div id="item-container">
         <!-- add products grid here -->
       </div>
