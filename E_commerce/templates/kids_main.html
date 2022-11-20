@@ -40,15 +40,15 @@
         </div>
     </div>
     
-    <div id="item-container">
-      <div class="card">
+    {% for i in '123'|make_list %}
+      <div class="card" style='display: inline-block;'>
         <img src="https://lh6.googleusercontent.com/7Y01t1mFv1dSRKfUXTeaC0pXdgaVYMFDKY_j_smRglWjnHqTZZBdoVXRt8tLle2DeubZC7gJ5yGgsakwkd18Oi4-t4OD2vWHXHL7gl5BAmwhAtqkxl0wkJYgj5I09KpoVqKlsC1i" alt="Denim Jeans" style="width:100%">
         <h1>Tailored Jeans</h1>
         <p class="price">$19.99</p>
         <p>Some text about the jeans..</p>
         <p><button>Add to Cart</button></p>
       </div>
-    </div>
+    {% endfor %}
     </div>
     <div id="end-container">
         <footer class="footer">
