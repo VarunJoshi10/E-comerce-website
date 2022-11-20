@@ -118,11 +118,11 @@
     <script>
         var options = {
             "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
-            "name": "Acme Corp",
+            "name": "OneStop",
             "description": "Test Transaction",
-            "image": "https://example.com/your_logo",
+            "image": "/static/images/logo.png",
             "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "callback_url": "http://127.0.0.1:8000/mens/",
+            "callback_url": "http://127.0.0.1:8000/paymenthandler/",
             "prefill": {
                 "name": "Gaurav Kumar",
                 "email": "gaurav.kumar@example.com",
@@ -132,7 +132,7 @@
                 "address": "Razorpay Corporate Office"
             },
             "theme": {
-                "color": "#3399cc"  
+                "color": "#28A977"  
             }
         };
         var rzp1 = new Razorpay(options);
