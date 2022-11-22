@@ -137,7 +137,8 @@
     }
     #item-container {
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 0px;
+      
     }
     #filter-container > div:nth-child(2) > div > select {
       padding: 0px;
