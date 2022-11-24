@@ -93,6 +93,11 @@ def women_main(request):
 def kids_main(request):
     return render(request, 'kids_main.html')
 
+
+def regis(request):
+    return render(request, 'regis.html')
+
+
 @csrf_exempt
 def paymenthandler(request):
  
