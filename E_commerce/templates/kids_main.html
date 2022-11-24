@@ -40,16 +40,17 @@
         </div>
     </div>
     <div id="item-container">
-      {% for i in '123456'|make_list %}
-      <div class="card" style='display: inline-block;'>
+      {% for i in kids_products %}
+      &emsp;
+      <div class="card">
         
-        <img src="https://lh6.googleusercontent.com/7Y01t1mFv1dSRKfUXTeaC0pXdgaVYMFDKY_j_smRglWjnHqTZZBdoVXRt8tLle2DeubZC7gJ5yGgsakwkd18Oi4-t4OD2vWHXHL7gl5BAmwhAtqkxl0wkJYgj5I09KpoVqKlsC1i" alt="Denim Jeans" style="width:100%">
-        <h1>Tailored Jeans</h1>
-        <p class="price">$19.99</p>
-        <p>Some text about the jeans..</p>
+        <img src="{{ i.image.url }}" alt="Denim Jeans" style="width:100%">
+        <h1>{{ i.name }}</h1>
+        <p class="price">{{ i.price }}/- Rs</p>
+        <p>{{ i.description }}</p>
         <p><button>Add to Cart</button></p>
-      </div>&emsp;&emsp;&emsp;&emsp;
-      {% endfor %} &emsp;
+      </div>&emsp;&emsp;
+      {% endfor %}
     </div>
 
     </div>

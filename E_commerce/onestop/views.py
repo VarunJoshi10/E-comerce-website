@@ -12,6 +12,8 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
+from onestop.models import Products
+
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
 # Create your views here.
@@ -91,7 +93,13 @@ def women_main(request):
     return render(request, 'women_main.html')
 
 def kids_main(request):
-    return render(request, 'kids_main.html')
+    kids_products = Products.objects.all().filter(category='Kids')
+
+    context = {
+        'kids_products' : kids_products
+    }
+
+    return render(request, 'kids_main.html', context)
 
 
 def regis(request):
