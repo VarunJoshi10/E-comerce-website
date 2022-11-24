@@ -26,3 +26,11 @@ class Products(models.Model):
 
     def __str__(self) -> str:
         return str(self.product_id) + ' ' + self.name
+    
+
+class Trial(models.Model):
+    name = models.CharField(max_length=100)
+    quantity = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.name + str(self.quantity)  

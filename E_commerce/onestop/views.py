@@ -12,9 +12,12 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from onestop.models import Products
+from .models import Products, Trial
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
+
+# For graphs
+from django.views.generic import TemplateView
 
 # Create your views here.
 
@@ -148,3 +151,13 @@ def paymenthandler(request):
     else:
        # if other than POST request is made.
         return HttpResponse("This is it")
+
+
+def graph(request):
+    bar_data = Trial.objects.all().distinct()
+
+    context = {
+        'data' : bar_data,
+    }
+
+    return render(request, 'graph_try.html', context)
