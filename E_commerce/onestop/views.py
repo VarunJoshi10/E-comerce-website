@@ -79,12 +79,19 @@ def signup(request):
 client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
 def mens_main(request):
+
+    mens_products = Products.objects.all().filter(category='Mens')
+
+    context = {
+        'mens_products' : mens_products
+    }
+
     amount = 5000
     order_curr = 'INR'
     
     order_id = client.order.create(dict(amount=amount,currency=order_curr,payment_capture = 1))
 
-    context ={
+    context1 ={
         'amount' : amount,
         'api_key' : RAZOR_KEY_ID,
         'order_id' : order_id['id'],
