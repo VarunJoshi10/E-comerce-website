@@ -14,5 +14,6 @@ urlpatterns = [
     path('kids/',views.kids_main, name='kids_main_page'),
     path('regis/',views.regis, name='regis'),
     path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
-    path('graph/', views.graph ,name='graph')
+    path('graph/', views.graph ,name='graph'),
+    path('payment/', views.payment ,name='payment')
 ]

@@ -45,35 +45,5 @@
       </div>
       {% endfor %}
 
-    <button id="rzp-button1">Pay</button>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-        var options = {
-            "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
-            "name": "OneStop",
-            "description": "Test Transaction",
-            "image": "/static/images/logo.png",
-            "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "callback_url": "http://127.0.0.1:8000/paymenthandler/",
-            "prefill": {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "9999999999"
-            },
-            "notes": {
-                "address": "Razorpay Corporate Office"
-            },
-            "theme": {
-                "color": "#28A977"  
-            }
-        };
-        var rzp1 = new Razorpay(options);
-        document.getElementById('rzp-button1').onclick = function (e) {
-            rzp1.open();
-            e.preventDefault();
-        }
-    </script>
-    </script>
-
 </body>
 </html>
