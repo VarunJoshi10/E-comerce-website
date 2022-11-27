@@ -100,7 +100,12 @@ def mens_main(request):
     return render(request, 'mens_main.html',context)
 
 def women_main(request):
-    return render(request, 'women_main.html')
+    women_products = Products.objects.all().filter(category='Women')
+
+    context = {
+        'women_products' : women_products
+    }
+    return render(request, 'women_main.html',context)
 
 def kids_main(request):
     kids_products = Products.objects.all().filter(category='Kids')
