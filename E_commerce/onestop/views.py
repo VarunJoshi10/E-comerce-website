@@ -166,10 +166,25 @@ def paymenthandler(request):
 
 
 def graph(request):
+    m_products = Products.objects.filter(category = 'Mens').count()
+
+    w_products = Products.objects.filter(category = 'Women').count()
+
+    k_proucts =Products.objects.filter(category = 'Kids').count()
+
+    doghnut_data = {
+        'Mens' : m_products,
+        'Women' : w_products,
+        'Kids' : k_proucts,
+    }
+
     bar_data = Trial.objects.all().distinct()
 
     context = {
         'data' : bar_data,
+        'doghnut_data' : doghnut_data
     }
+
+    print(context)
 
     return render(request, 'graph_try.html', context)
