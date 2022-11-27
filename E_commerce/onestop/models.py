@@ -52,3 +52,22 @@ class Seller(models.Model):
 
     def __str__(self) -> str:
         return str(self.Id) + '-' + self.ShopName + '-' + self.VerificationStatus 
+    
+
+class PaymentDetails(models.Model):
+    Seller_id = models.IntegerField()
+    Customer_id = models.IntegerField()
+    Order_id = models.CharField(max_length=200)
+    Payment_id = models.CharField(max_length=200)
+    Signature = models.CharField(max_length=200)
+    Amount = models.IntegerField()
+
+    status_choices = (
+        ('Success', 'Success'),
+        ('Failed', 'Failed')
+    )
+
+    Status = models.CharField(choices=status_choices, default='Failed', max_length=50)
+
+    def __str__(self) -> str:
+        return self.Order_id + '-->' + self.Status
