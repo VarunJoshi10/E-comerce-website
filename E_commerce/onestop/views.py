@@ -185,6 +185,4 @@ def graph(request):
         'doghnut_data' : doghnut_data
     }
 
-    print(context)
-
     return render(request, 'graph_try.html', context)

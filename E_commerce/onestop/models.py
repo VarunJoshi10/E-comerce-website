@@ -34,3 +34,21 @@ class Trial(models.Model):
 
     def __str__(self) -> str:
         return self.name + str(self.quantity)  
+    
+
+class Seller(models.Model):
+    Id = models.AutoField(primary_key=True, unique=True, default=1001)
+    name = models.CharField(max_length=200)
+    Mobile = models.IntegerField()
+    ShopName = models.CharField(max_length=200)
+    VerificationDocument = models.ImageField(upload_to='seller_documents', default='')
+
+    verfication_choices = (
+        ('Verified', 'Verified'),
+        ('Not Verified', 'Not Verified')
+    )
+
+    VerificationStatus = models.CharField(choices=verfication_choices, default='Not Verified',max_length=50)
+
+    def __str__(self) -> str:
+        return str(self.Id) + '-' + self.ShopName + '-' + self.VerificationStatus 
