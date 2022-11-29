@@ -11,6 +11,7 @@ from django.db import models
 # Create your models here.
 class Products(models.Model):
     product_id  = models.AutoField(primary_key = True)
+    listedBy = models.IntegerField(default=0)
     name = models.CharField(max_length = 200) 
     price = models.IntegerField(default=0)
 
@@ -21,6 +22,14 @@ class Products(models.Model):
     )
 
     category = models.CharField(choices=category_choices, max_length = 5, default='none')
+
+    sub_category = (
+        ('Summer', 'Summer'),
+        ('Winter', 'Winter')
+    )
+
+    sub_category = models.CharField(choices=sub_category, default='none', max_length=10)
+
     description = models.CharField(max_length = 500, default="")
     image = models.ImageField(upload_to='product_images', default='')
 
@@ -71,3 +80,8 @@ class PaymentDetails(models.Model):
 
     def __str__(self) -> str:
         return self.Order_id + '-->' + self.Status
+    
+
+class cart(models.Model):
+    user_id = models.IntegerField()
+    prod_id = models.IntegerField()

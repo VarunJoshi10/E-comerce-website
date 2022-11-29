@@ -73,30 +73,32 @@ def landing_page(request):
 def signup(request):
     # if request.method == 'POST':
     #     pass
+
+    # Add unique constraint here for username  (check for the username if already exists then ask to change it)
     return render(request, 'signup.html')
 
 
 razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
 def mens_main(request):
-
     mens_products = Products.objects.all().filter(category='Mens')
 
     context = {
         'mens_products' : mens_products
     }
 
-    # amount = 5000
-    # order_curr = 'INR'
-    
-    # order_id = client.order.create(dict(amount=amount,currency=order_curr,payment_capture = 1))
+    if request.method == "POST":
+        btn_name  = request.POST.get("btn")
 
-    # context1 ={
-    #     'amount' : amount,
-    #     'api_key' : RAZOR_KEY_ID,
-    #     'order_id' : order_id['id'],
-    # }
-    # return render(request, 'new_try.html', context)
+        if btn_name == 'Add to Cart':
+            product_id = request.POST.get("pid")
+            
+            user_id1 = User.objects.filter(username = request.user).values('id')
+
+            messages.success(request,"Item added to cart")
+
+        return render(request, 'mens_main.html', context)
+
     return render(request, 'mens_main.html',context)
 
 def women_main(request):
@@ -122,17 +124,6 @@ def regis(request):
 
 
 def payment(request):
-    # amount = 5000
-    # order_curr = 'INR'
-    
-    # order_id = client.order.create(dict(amount=amount,currency=order_curr,payment_capture = 1))
-
-    # context1 ={
-    #     'amount' : amount,
-    #     'api_key' : RAZOR_KEY_ID,
-    #     'order_id' : order_id['id'],
-    # }
-
     currency = 'INR'
     amount = 20000  # Rs. 200
  
@@ -220,3 +211,13 @@ def graph(request):
     }
 
     return render(request, 'graph_try.html', context)
+
+
+def trial(request):
+    if request.method == 'POST':
+        values = request.POST.getlist('val')
+
+        print(values)
+
+        return redirect('/')
+    return render(request, 'new_try.html')
