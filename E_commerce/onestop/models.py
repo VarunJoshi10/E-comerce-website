@@ -87,6 +87,10 @@ class Cart(models.Model):
     prod_id = models.IntegerField()
     listedBy = models.IntegerField(default=0)
     quantity = models.IntegerField(default=1)
+    image = models.ImageField(upload_to='product_images', default='')
+    title = models.CharField(max_length=200,default='')
+    desc = models.CharField(max_length=200,default='')
+    price = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return "UserId: " + str(self.user_id) + " ProductId: " + str(self.prod_id)
