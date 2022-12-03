@@ -43,13 +43,17 @@
 
       {% for i in kids_products %}
       <div class="card" style="width: 18rem; display: inline-block; margin-left: 2.5rem;">
-        <img src="{{ i.image.url }}" class="card-img-top" alt="Product Image" >
-        <div class="card-body">
-          <h5 class="card-title">{{ i.name }}</h5>
-          <p class="card-text">{{ i.description }} </p>
-          <p class="card-text">Rs {{ i.price }} /-</p>
-          <a href="#" class="btn btn-primary">Add to Cart</a>
-        </div>
+        <form method="post" action="/kids/">
+            <img src="{{ i.image.url }}" class="card-img-top" alt="{{i.name}}" style="height: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ i.name }}</h5>
+                <p class="card-text">{{ i.description }} </p>
+                <p class="card-text">{{ i.price }}/- Rs</p>
+                <input name="pid" class="card-text" hidden value='{{ i.product_id }}'/>
+                <input name="sid" class="card-text" hidden value='{{ i.listedBy }}'/>
+                <input type="submit" name="btn" class="btn btn-primary" value="Add to Cart">
+            </div>
+        </form>
       </div>
       {% endfor %}
 

@@ -82,6 +82,11 @@ class PaymentDetails(models.Model):
         return self.Order_id + '-->' + self.Status
     
 
-class cart(models.Model):
+class Cart(models.Model):
     user_id = models.IntegerField()
     prod_id = models.IntegerField()
+    listedBy = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self) -> str:
+        return "UserId: " + str(self.user_id) + " ProductId: " + str(self.prod_id)

@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Products, Trial
+from .models import Products, Trial, Cart
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
@@ -92,12 +92,15 @@ def mens_main(request):
 
         if btn_name == 'Add to Cart':
             product_id = request.POST.get("pid")
+            seller_id = request.POST.get("sid")
             
-            user_id1 = User.objects.filter(username = request.user).values('id')
+            user_id = User.objects.filter(username = request.user).values('id')
 
-            messages.success(request,"Item added to cart")
+            # Make a alert here if same product is already present in the cart by the same user
+            # Use messages 
 
-        return render(request, 'mens_main.html', context)
+            cart_obj = Cart(user_id=user_id, prod_id = product_id,listedBy = seller_id)
+            cart_obj.save()
 
     return render(request, 'mens_main.html',context)
 
@@ -107,6 +110,23 @@ def women_main(request):
     context = {
         'women_products' : women_products
     }
+    
+    if request.method == "POST":
+        btn_name  = request.POST.get("btn")
+
+        if btn_name == 'Add to Cart':
+            product_id = request.POST.get("pid")
+            seller_id = request.POST.get("sid")
+            
+            user_id = User.objects.filter(username = request.user).values('id')
+
+            # Make a alert here if same product is already present in the cart by the same user
+            # Use messages 
+
+            cart_obj = Cart(user_id=user_id, prod_id = product_id,listedBy = seller_id)
+            cart_obj.save()
+
+
     return render(request, 'women_main.html',context)
 
 def kids_main(request):
@@ -115,6 +135,21 @@ def kids_main(request):
     context = {
         'kids_products' : kids_products
     }
+
+    if request.method == "POST":
+        btn_name  = request.POST.get("btn")
+
+        if btn_name == 'Add to Cart':
+            product_id = request.POST.get("pid")
+            seller_id = request.POST.get("sid")
+            
+            user_id = User.objects.filter(username = request.user).values('id')
+
+            # Make a alert here if same product is already present in the cart by the same user
+            # Use messages 
+
+            cart_obj = Cart(user_id=user_id, prod_id = product_id,listedBy = seller_id)
+            cart_obj.save()
 
     return render(request, 'kids_main.html', context)
 
@@ -125,7 +160,7 @@ def regis(request):
 
 def payment(request):
     currency = 'INR'
-    amount = 20000  # Rs. 200
+    amount = 20000  # Rs. 200 Get it from user
  
     # Create a Razorpay Order
     razorpay_order = razorpay_client.order.create(dict(amount=amount,
@@ -221,3 +256,7 @@ def trial(request):
 
         return redirect('/')
     return render(request, 'new_try.html')
+
+
+def cart(request):
+    return render(request, 'cart.html')
