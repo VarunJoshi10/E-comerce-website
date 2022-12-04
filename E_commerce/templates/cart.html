@@ -8,36 +8,60 @@
     <title>Cart</title>
 </head>
 <body>
-
-    <form method="post" >
-
         
-        <div style="padding: 20px; border-radius:20px; border: 2px solid black; margin-top:10px; width: 900px;">
-            <table class="table">
-                <thead>
+    <div style="padding: 20px; border-radius:20px; border: 2px solid black; margin-top:10px; width: 900px;">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Product Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Listed By</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in cart %}
                 <tr>
-                    <th scope="col">Product Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Listed By</th>
-                    <th scope="col">Price</th>
+                    <td>{{i.prod_id}}</td>
+                    <td>{{i.title}}</td>
+                    <td>{{i.listedBy}}</td>
+                    <td>{{i.price}}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for i in cart %}
-                    <tr>
-                        <td>{{i.prod_id}}</td>
-                        <td>{{i.title}}</td>
-                        <td>{{i.listedBy}}</td>
-                        <td>{{i.price}}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <button type="button" class="btn btn-primary" name="all_products">Checkout</button>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <button type="button" id="pay-btn" class="btn btn-primary" name="all_products">Checkout</button>
 
-    </form>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+        key: "{{ razorpay_merchant_key }}",
+
+        // Amount is in currency subunits.
+        // Default currency is INR. Hence,
+        // 50000 refers to 50000 paise
+        amount: "{{ razorpay_amount }}",
+        currency: "{{ currency }}",
+
+        // store name.
+        name: "One Stop",
+
+        // Pass the `id` obtained in the response of Step 1
+        order_id: "{{ razorpay_order_id }}",
+        callback_url: "http://127.0.0.1:8000/paymenthandler/",
+        };
+
+        // initialise razorpay with the options.
+        var rzp1 = new Razorpay(options);
+
+        // add event listener to the payment button.
+        document.getElementById("pay-btn").onclick = function (e) {
+        rzp1.open();
+        e.preventDefault();
+        };
+    </script>
     
 </body>
 </html>
