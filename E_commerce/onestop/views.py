@@ -99,8 +99,8 @@ def mens_main(request):
             # Use messages 
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                image = product_details['image'], title = product_details['name'], 
-                desc = product_details['description'], price = product_details['price'])
+                title = product_details['name'], 
+                price = product_details['price'])
             cart_obj.save()
 
     return render(request, 'mens_main.html',context)
@@ -124,8 +124,8 @@ def women_main(request):
             # Use messages 
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                image = product_details['image'], title = product_details['name'], 
-                desc = product_details['description'], price = product_details['price'])
+                title = product_details['name'], 
+                price = product_details['price'])
             cart_obj.save()
 
 
@@ -150,8 +150,8 @@ def kids_main(request):
             # Use messages 
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                image = product_details['image'], title = product_details['name'], 
-                desc = product_details['description'], price = product_details['price'])
+                title = product_details['name'], 
+                price = product_details['price'])
             cart_obj.save()
 
     return render(request, 'kids_main.html', context)
@@ -264,9 +264,10 @@ def trial(request):
 def cart(request):
     cart = Cart.objects.filter(user_id = request.user.id).values()
 
+    # Directly go for the single item and also don't take images its going to be hectic
+
     context = {
         'cart' : cart
     }
 
-    print(cart)
     return render(request, 'cart.html', context)

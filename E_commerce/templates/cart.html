@@ -11,31 +11,29 @@
 
     <form method="post" >
 
-        {% for i in cart %}
-
-        <div style="padding: 20px;">
-            <div style="width:1500px; height:190px; border-radius: 20px; border: 1px solid black; padding: 20px;">
-     
-                <!-- <form method="post" > -->
-                    <img src="{{ i.image.url }}" class="img-thumbnail" alt="{{ i.image.url }}" style="height: 150px; background-color: aliceblue;">
-                    
-                    <div style="background-color: aqua; height: 150px; width: 800px; padding: 10px 0 10px 20px; display: inline-block;">
-                        <input type="number" name="product_id" value="Product Id here" hidden>
-                        <label name="product_name" style="font-size: 20px;">{{ i.title}}</label>
-                        <br>
-                        <label name="product_des">{{ i.desc }}</label>
-                    </div>
-    
-                    <!-- <input type="button" name="decrease" onclick="quantity_button('-')" value="-" style="border: 1px;">
-                    <input id="product_quantity" type="number" disabled value="1" name="product_quantity">
-                    <input type="button" name="increase" onclick="quantity_button('+')" value="+" style="border: 1px;"> -->
-
-                    <label id="product_cost" name="product_cost">{{ i.price }}</label>
-    
-            </div>
-        </div>
         
-        {% endfor %}
+        <div style="padding: 20px; border-radius:20px; border: 2px solid black; margin-top:10px; width: 900px;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Listed By</th>
+                    <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in cart %}
+                    <tr>
+                        <td>{{i.prod_id}}</td>
+                        <td>{{i.title}}</td>
+                        <td>{{i.listedBy}}</td>
+                        <td>{{i.price}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
         
         <button type="button" class="btn btn-primary" name="all_products">Checkout</button>
 
