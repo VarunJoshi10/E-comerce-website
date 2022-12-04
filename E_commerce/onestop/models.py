@@ -79,7 +79,7 @@ class PaymentDetails(models.Model):
     Status = models.CharField(choices=status_choices, default='Failed', max_length=50)
 
     def __str__(self) -> str:
-        return self.Order_id + '-->' + self.Status
+        return self.Customer_id +' --> ' + self.Order_id + ' --> ' + self.Status
     
 
 class Cart(models.Model):
