@@ -166,6 +166,7 @@ def regis(request):
 
 
 def graph(request):
+    # General items
     m_products = Products.objects.filter(listedBy = 1002 ,category = 'Mens').count()
 
     w_products = Products.objects.filter(listedBy = 1002 ,category = 'Women').count()
@@ -180,22 +181,70 @@ def graph(request):
     total_sales = SellerSales.objects.filter(sellerId = 1002).aggregate(Sum('sales'))['sales__sum']
 
     sales_in_months = SellerSales.objects.filter(sellerId = 1002).values('month').annotate(the__count=Count('month'))
-    print(sales_in_months)
 
 
-    doghnut_data = {
+    # Summer items
+    m_products_summer = Products.objects.filter(listedBy = 1002 ,category = 'Mens', sub_category = 'Summer').count()
+
+    w_products_summer = Products.objects.filter(listedBy = 1002 ,category = 'Women', sub_category = 'Summer').count()
+
+    k_proucts_summer =Products.objects.filter(listedBy = 1002 ,category = 'Kids', sub_category = 'Summer').count()
+
+    total_products_summer = Products.objects.filter(listedBy = 1002,sub_category = 'Summer' ).count()
+
+    total_sales_summer = SellerSales.objects.filter(sellerId = 1002,sub_category = 'Summer').aggregate(Sum('sales'))['sales__sum']
+
+    sales_in_months_summer = SellerSales.objects.filter(sellerId = 1002 , sub_category = 'Summer').values('month').annotate(the__count=Count('month'))
+
+
+    # Summer winter
+    m_products_winter = Products.objects.filter(listedBy = 1002 ,category = 'Mens', sub_category = 'Winter').count()
+
+    w_products_winter = Products.objects.filter(listedBy = 1002 ,category = 'Women', sub_category = 'Winter').count()
+
+    k_proucts_winter =Products.objects.filter(listedBy = 1002 ,category = 'Kids', sub_category = 'Winter').count()
+
+    total_products_winter = Products.objects.filter(listedBy = 1002,sub_category = 'Winter' ).count()
+
+    total_sales_winter = SellerSales.objects.filter(sellerId = 1002,sub_category = 'Winter').aggregate(Sum('sales'))['sales__sum']
+
+    sales_in_months_winter = SellerSales.objects.filter(sellerId = 1002 , sub_category = 'Winter').values('month').annotate(the__count=Count('month'))
+
+    doghnut_data_all = {
         'Mens' : m_products,
         'Women' : w_products,
         'Kids' : k_proucts,
     }
 
+    doghnut_data_summer = {
+        'Mens' : m_products_summer,
+        'Women' : w_products_summer,
+        'Kids' : k_proucts_summer,
+    }
+
+    doghnut_data_winter = {
+        'Mens' : m_products_winter,
+        'Women' : w_products_winter,
+        'Kids' : k_proucts_winter,
+    }
+
     context = {
-        'doghnut_data' : doghnut_data,
+        'doghnut_data_all' : doghnut_data_all,
         'total_products': total_products,
         'winter_products' : winter_products,
         'summer_products' : summer_products,
         'total_sales': total_sales,
-        'sales' : sales_in_months
+        'sales' : sales_in_months,
+
+        'doghnut_data_summer' : doghnut_data_summer,
+        'total_products_summer': total_products_summer,
+        'total_sales_summer': total_sales_summer,
+        'sales_summer' : sales_in_months_summer,
+
+        'doghnut_data_winter' : doghnut_data_winter,
+        'total_products_winter': total_products_winter,
+        'total_sales_winter': total_sales_winter,
+        'sales_winter' : sales_in_months_winter,
     }
 
     return render(request, 'graph_try.html', context)
