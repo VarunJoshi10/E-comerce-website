@@ -180,6 +180,7 @@ def graph(request):
     total_sales = SellerSales.objects.filter(sellerId = 1002).aggregate(Sum('sales'))['sales__sum']
 
     sales_in_months = SellerSales.objects.filter(sellerId = 1002).values('month').annotate(the__count=Count('month'))
+    print(sales_in_months)
 
 
     doghnut_data = {
@@ -289,7 +290,7 @@ def paymenthandler(request):
                     cart_obj = Cart.objects.filter(user_id = order_details.Customer_id).delete()
  
                     # render success page on successful caputre of payment
-                    return render(request, 'success.html')
+                    return render(request, 'payment_success.html')
                 except:
                     order_details.Status = 'Falied'
                     order_details.save()

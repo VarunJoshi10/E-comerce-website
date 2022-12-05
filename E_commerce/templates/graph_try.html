@@ -95,7 +95,7 @@
           display: true,
           text: 'Products Description',
       },
-      labels: [{% for i in sales %}{{i.Month}},{% endfor %}],
+      labels: [{% for i in sales %}{{i.month}},{% endfor %}],
       datasets: [{
         label: 'Product Count',
         data: [{% for i in sales %}{{i.the__count}},{% endfor %}],
@@ -105,7 +105,7 @@
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
         }
       }
     }
