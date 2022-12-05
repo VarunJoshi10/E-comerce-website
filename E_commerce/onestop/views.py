@@ -200,15 +200,6 @@ def graph(request):
     return render(request, 'graph_try.html', context)
 
 
-def trial(request):
-    if request.method == 'POST':
-        values = request.POST.getlist('val')
-
-        print(values)
-
-        return redirect('/')
-    return render(request, 'new_try.html')
-
 # Created razorpay client object by passing id and secret key 
 razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
