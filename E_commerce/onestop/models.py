@@ -37,14 +37,6 @@ class Products(models.Model):
         return str(self.product_id) + ' ' + self.name
     
 
-class Trial(models.Model):
-    name = models.CharField(max_length=100)
-    quantity = models.IntegerField()
-
-    def __str__(self) -> str:
-        return self.name + str(self.quantity)  
-    
-
 class Seller(models.Model):
     Id = models.AutoField(primary_key=True, unique=True, default=1001)
     name = models.CharField(max_length=200)
@@ -77,6 +69,7 @@ class PaymentDetails(models.Model):
     )
 
     Status = models.CharField(choices=status_choices, default='Failed', max_length=50)
+    Month = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return str(self.Customer_id) +' --> ' + self.Order_id + ' --> ' + self.Status
@@ -88,6 +81,20 @@ class Cart(models.Model):
     listedBy = models.IntegerField(default=0)
     title = models.CharField(max_length=200,default='')
     price = models.IntegerField(default=0)
+    category = models.CharField(max_length=200,default='')
+    sub_category = models.CharField(max_length=200, default='')
 
     def __str__(self) -> str:
         return "UserId: " + str(self.user_id) + " ProductId: " + str(self.prod_id)
+    
+
+class SellerSales(models.Model):
+    sellerId = models.IntegerField(default=0)
+    sales = models.IntegerField(default=0)
+    category = models.CharField(max_length=200,default='')
+    sub_category = models.CharField(max_length=200, default='')
+    month = models.IntegerField(default=0)
+
+
+    def __str__(self) -> str:
+        return str(self.sellerId) + " --> " + str(self.sales)

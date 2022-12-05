@@ -12,11 +12,13 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Products, Trial, Cart, PaymentDetails
+from .models import Products, Cart, PaymentDetails, SellerSales
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
-from django.db.models import Sum
+from django.db.models import Sum, Count
+
+import datetime
 
 # Create your views here.
 
@@ -96,7 +98,9 @@ def mens_main(request):
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                 title = product_details['name'], 
-                price = product_details['price'])
+                price = product_details['price'],
+                category = product_details['category'],
+                sub_category = product_details['sub_category'])
             cart_obj.save()
 
     return render(request, 'mens_main.html',context)
@@ -121,7 +125,9 @@ def women_main(request):
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                 title = product_details['name'], 
-                price = product_details['price'])
+                price = product_details['price'],
+                category = product_details['category'],
+                sub_category = product_details['sub_category'])
             cart_obj.save()
 
 
@@ -147,14 +153,16 @@ def kids_main(request):
 
             cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                 title = product_details['name'], 
-                price = product_details['price'])
+                price = product_details['price'],
+                category = product_details['category'],
+                sub_category = product_details['sub_category'])
             cart_obj.save()
 
     return render(request, 'kids_main.html', context)
 
 
 def regis(request):
-    return render(request, 'regis.html')
+    return render(request, 'snippets.html')
 
 
 def graph(request):
@@ -164,17 +172,29 @@ def graph(request):
 
     k_proucts =Products.objects.filter(category = 'Kids').count()
 
+    total_products = Products.objects.count()
+
+    summer_products = Products.objects.filter(sub_category = 'Summer').count()
+    winter_products = Products.objects.filter(sub_category = 'Winter').count()
+
+    total_sales = PaymentDetails.objects.filter(Status = 'Success').aggregate(Sum('Amount'))['Amount__sum']
+
+    sales_in_months = PaymentDetails.objects.values('Month').annotate(the__count=Count('Month'))
+
+
     doghnut_data = {
         'Mens' : m_products,
         'Women' : w_products,
         'Kids' : k_proucts,
     }
 
-    bar_data = Trial.objects.all().distinct()
-
     context = {
-        'data' : bar_data,
-        'doghnut_data' : doghnut_data
+        'doghnut_data' : doghnut_data,
+        'total_products': total_products,
+        'winter_products' : winter_products,
+        'summer_products' : summer_products,
+        'total_sales': total_sales/100,
+        'sales' : sales_in_months
     }
 
     return render(request, 'graph_try.html', context)
@@ -195,41 +215,43 @@ razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
 def cart(request):
     cart = Cart.objects.filter(user_id = request.user.id).values()
+
+    if len(cart) != 0:
+        total_price = Cart.objects.filter(user_id = request.user.id).aggregate(Sum('price'))['price__sum']
+
+        currency = 'INR'
+        amount = total_price * 100
+        
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                        currency=currency,
+                                                        payment_capture='0'))
+
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = 'paymenthandler/'
+
+        # we need to pass these details to frontend.
+        context = {}
+        context['razorpay_order_id'] = razorpay_order_id
+        context['razorpay_merchant_key'] = RAZOR_KEY_ID
+        context['razorpay_amount'] = amount
+        context['currency'] = currency
+        context['callback_url'] = callback_url
+
+        # Adding the cart items to the page
+        context['cart'] = cart
+
+        store_payment = PaymentDetails(Seller_id = 1001, Customer_id = request.user.id,
+            Order_id = razorpay_order_id, Payment_id = '', Signature = '',
+            Amount = amount, Month = datetime.datetime.now().month)
+        
+        store_payment.save()
+
+        return render(request, 'cart.html', context)
     
-    total_price = Cart.objects.filter(user_id = request.user.id).aggregate(Sum('price'))['price__sum']
-
-    # Directly go for the single item and also don't take images its going to be hectic
-
-    currency = 'INR'
-    amount = total_price * 100
-    
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                    currency=currency,
-                                                    payment_capture='0'))
-
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler/'
-
-    # we need to pass these details to frontend.
-    context = {}
-    context['razorpay_order_id'] = razorpay_order_id
-    context['razorpay_merchant_key'] = RAZOR_KEY_ID
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
-
-    # Adding the cart items to the page
-    context['cart'] = cart
-
-    store_payment = PaymentDetails(Seller_id = 1001, Customer_id = request.user.id,
-        Order_id = razorpay_order_id, Payment_id = '', Signature = '',
-        Amount = amount)
-    
-    store_payment.save()
-
-    return render(request, 'cart.html', context)
+    else:
+        return HttpResponse("No items in the cart")
 
 
 @csrf_exempt
@@ -265,6 +287,15 @@ def paymenthandler(request):
 
                     order_details.Status = 'Success'
                     order_details.save()
+
+                    sellers = Cart.objects.filter(user_id = order_details.Customer_id).values('listedBy','category','sub_category').annotate(the__sum = Sum('price'))
+
+                    for i in sellers:
+                        seller = SellerSales(sellerId = i['listedBy'], sales = i['the__sum'], category = i['category'],
+                            sub_category = i['sub_category'], month = order_details.Month) 
+                        seller.save()
+
+                    cart_obj = Cart.objects.filter(user_id = order_details.Customer_id).delete()
  
                     # render success page on successful caputre of payment
                     return render(request, 'success.html')
