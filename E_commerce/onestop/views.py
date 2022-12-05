@@ -166,20 +166,20 @@ def regis(request):
 
 
 def graph(request):
-    m_products = Products.objects.filter(category = 'Mens').count()
+    m_products = Products.objects.filter(listedBy = 1002 ,category = 'Mens').count()
 
-    w_products = Products.objects.filter(category = 'Women').count()
+    w_products = Products.objects.filter(listedBy = 1002 ,category = 'Women').count()
 
-    k_proucts =Products.objects.filter(category = 'Kids').count()
+    k_proucts =Products.objects.filter(listedBy = 1002 ,category = 'Kids').count()
 
-    total_products = Products.objects.count()
+    total_products = Products.objects.filter(listedBy = 1002).count()
 
-    summer_products = Products.objects.filter(sub_category = 'Summer').count()
-    winter_products = Products.objects.filter(sub_category = 'Winter').count()
+    summer_products = Products.objects.filter(listedBy = 1002,sub_category = 'Summer').count()
+    winter_products = Products.objects.filter(listedBy = 1002,sub_category = 'Winter').count()
 
-    total_sales = PaymentDetails.objects.filter(Status = 'Success').aggregate(Sum('Amount'))['Amount__sum']
+    total_sales = SellerSales.objects.filter(sellerId = 1002).aggregate(Sum('sales'))['sales__sum']
 
-    sales_in_months = PaymentDetails.objects.values('Month').annotate(the__count=Count('Month'))
+    sales_in_months = SellerSales.objects.filter(sellerId = 1002).values('month').annotate(the__count=Count('month'))
 
 
     doghnut_data = {
@@ -193,7 +193,7 @@ def graph(request):
         'total_products': total_products,
         'winter_products' : winter_products,
         'summer_products' : summer_products,
-        'total_sales': total_sales/100,
+        'total_sales': total_sales,
         'sales' : sales_in_months
     }
 
@@ -242,7 +242,7 @@ def cart(request):
         return render(request, 'cart.html', context)
     
     else:
-        return HttpResponse("No items in the cart")
+        return render(request, 'empty_cart.html')
 
 
 @csrf_exempt

@@ -38,7 +38,7 @@ class Products(models.Model):
     
 
 class Seller(models.Model):
-    Id = models.AutoField(primary_key=True, unique=True, default=1001)
+    Id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=200)
     Mobile = models.IntegerField()
     ShopName = models.CharField(max_length=200)
