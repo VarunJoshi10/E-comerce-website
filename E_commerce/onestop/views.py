@@ -356,3 +356,8 @@ def paymenthandler(request):
     else:
        # if other than POST request is made.
         return render(request,'payment_fail.html')
+    
+
+
+def sellerLogin(request):
+    return render(request, 'seller_login.html   ')

@@ -15,5 +15,6 @@ urlpatterns = [
     path('regis/',views.regis, name='regis'),
     path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
     path('graph/', views.graph ,name='graph'),
-    path('cart/', views.cart,name='cartPage')
+    path('cart/', views.cart,name='cartPage'),
+    path('sellerLogin/', views.sellerLogin,name='sellerLogin'),
 ]
