@@ -22,4 +22,5 @@ urlpatterns = [
     path('pr/', views.pr,name='productAdd'),
     path('seller_profile_main/', views.mainSellerProfile,name='main_profile_seller'),
     path('seller_logout/', views.sellerLogout,name='seller_logout'),
+    path('viewProduct/', views.viewProduct,name='viewProduct'),
 ]

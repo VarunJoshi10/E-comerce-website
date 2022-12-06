@@ -23,6 +23,7 @@ import datetime
 # For image uploading from html page
 from django.core.files.storage import FileSystemStorage
 
+
 # Create your views here.
 
 
@@ -374,7 +375,23 @@ def sellerLogin(request):
 
         if btn_name == 'Sign up':
 
-            return render(request, 'seller_profile.html')
+            name = request.POST.get("signup_name")
+            signup_mob = request.POST.get("signup_mob")
+            signup_password = request.POST.get("signup_password")
+            store_name = request.POST.get("store_name")
+
+            new_seller = Seller(name = name, password = signup_password, Mobile = signup_mob, ShopName = store_name)
+            new_seller.save()
+
+            currSeller_obj = currSeller(s_no = 1, seller_id = new_seller.Id)
+            
+            currSeller_obj.save()
+            
+            context = {
+                'seller_obj' : new_seller
+            }
+
+            return render(request, 'seller_profile.html' , context)
         
         elif btn_name == 'Log in':
 
@@ -384,6 +401,7 @@ def sellerLogin(request):
             seller_obj = Seller.objects.get(Mobile = mob, password = password)
             
             currSeller_obj = currSeller(s_no = 1, seller_id = seller_obj.Id)
+            
             currSeller_obj.save()
             
             context = {
@@ -392,7 +410,7 @@ def sellerLogin(request):
 
             return render(request, 'seller_profile.html', context)
         
-
+        
     return render(request, 'seller_signup.html')
 
 def customerProfile(request):
@@ -413,25 +431,33 @@ def pr(request):
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
-    context = {
-                'seller_obj' : seller_obj
-            }
-    
-    if request.method == "POST":
-        prod_name = request.POST.get('prod_name')
-        prod_desc = request.POST.get('prod_desc')
-        prod_price = request.POST.get('prod_price')
-        prod_category = request.POST.get('category')
-        prod_sub_category = request.POST.get('sub_category')
-        image = request.FILES.get('upload_img')
+    if seller_obj.VerificationStatus == 'Not Verified':
+        context = {
+                    'seller_obj' : seller_obj,
+                    'content': 'Your verification is not done yet please wait till the time'
+                }
+        return render(request, 'seller_profile.html', context)
 
-        new_prod = Products(listedBy = currSeller_obj.seller_id, name = prod_name, price = int(prod_price),
-            category = prod_category, sub_category = prod_sub_category, description = prod_desc,
-            image = image)
+    else:
+        context = {
+                    'seller_obj' : seller_obj
+                }
         
-        new_prod.save()
+        if request.method == "POST":
+            prod_name = request.POST.get('prod_name')
+            prod_desc = request.POST.get('prod_desc')
+            prod_price = request.POST.get('prod_price')
+            prod_category = request.POST.get('category')
+            prod_sub_category = request.POST.get('sub_category')
+            image = request.FILES.get('upload_img')
 
-        return render(request, 'pr1.html',context)
+            new_prod = Products.objects.create(listedBy = currSeller_obj.seller_id, name = prod_name, price = int(prod_price),
+                category = prod_category, sub_category = prod_sub_category, description = prod_desc,
+                image = image)
+            
+            new_prod.save()
+
+            return render(request, 'pr1.html',context)
 
     return render(request, 'pr1.html',context)
 
@@ -441,6 +467,22 @@ def mainSellerProfile(request):
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
+    if request.method == 'POST':         
+        currSeller_obj = currSeller.objects.get(s_no = 1)
+        
+        image = request.FILES.get('upload_img')
+
+        seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+        seller_obj.VerificationDocument = image
+
+        seller_obj.save()
+        
+        context = {
+            'seller_obj' : seller_obj
+        }
+
+        return render(request, 'seller_profile.html', context)
+
     context = {
                 'seller_obj' : seller_obj
             }
@@ -449,3 +491,18 @@ def mainSellerProfile(request):
 def sellerLogout(request):
     currSeller.objects.get(s_no = 1).delete()
     return redirect('/sellerLogin')
+
+def viewProduct(request):
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
+
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
+    product_obj = Products.objects.filter(listedBy = seller_obj.Id).values().all()
+
+    print(product_obj)
+
+    context = {
+                'seller_obj' : seller_obj,
+                'product_obj': product_obj
+            }
+    return render(request, 'seller_products_view.html', context)
