@@ -19,5 +19,6 @@ urlpatterns = [
     path('sellerLogin/', views.sellerLogin,name='sellerLogin'),
     path('customerProfile/', views.customerProfile,name='customerProfile'),
     path('sellerProfile/', views.sellerProfile,name='sellerProfile'),
-    path('pr/', views.pr,name='pr'),
+    path('pr/', views.pr,name='productAdd'),
+    path('seller_profile_main/', views.mainSellerProfile,name='main_profile_seller'),
 ]

@@ -1,18 +1,19 @@
 {% extends 'seller_profile.html' %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     
-
 </head>
+{% block showhere %}
 <body>
-  {% block showhere %}
+  
+  
+
     <style>
+        @import "./styleReset.css";
 
 body {
   font-family: "Source Sans Pro", sans-serif;
@@ -253,50 +254,39 @@ a {
 }
 
     </style>
-
-<div class="wrapper"> 
-  <div class="under"></div>
-  <div class="form__container" style="margin:300px; margin-top:-30px">
-      <h1>Product Information</h1>
-  <form class="add__form" action="URL">
-      <p class="form__title">Name</p>
-      <input type="text" placeholder="Enter Product Name">
-      <p class="description">Product Description</p>
-      <textarea class="description__input" placeholder="Describe your product in  less than 200 words"></textarea>
-      <p class="form__title">Product Price</p>
-      <input type="text" placeholder="Enter Product Price">
-      <p class="form__title">Product Category</p>
-  <br>&emsp;<br>
-      <select> 
-          <option value="men">Mens</option> 
-          <option value="women">Womens</option> 
-          <option value="kid">Kids</option> 
-          
-          </option> 
-      </select><br>
-      <p class="form__title">Sub-Category</p>
-  <br>&emsp;<br>
-      <select> 
-          <option value="winter">Winter</option> 
-          <option value="summer">Summer</option> 
-          
-          </option> 
-      </select>
-
-      <br>
-        <p class="form__title">Upload Product Image</p>
-        <input type="file" 
-               id="file1" 
-               accept="image/*"
+<div class="wrapper">
+    <div class="under"></div>
+    <div class="form__container" style="margin:300px; margin-top:-30px">
+        <h1>Seller Information</h1>
+    <form class="add__form" action="URL">
+        <p class="form__title">Name</p>
+        <br>
+        <br>
+       
+        
+        <p class="form__title">Mobile</p>
+        <br>
+        <br>
+       
+        <p class="form__title">Shop Name</p>
+    <br>&emsp;<br>
+        
+        <p class="form__title">Verification Document</p>
+    <br>
+    <input type="file" 
+               id="file2" 
                name="upload">
+    <br>
+    
+       
+    <p class="form__title">Verification Status</p>
+    <br><br>
+       
+       
 
-     
-      <button class="btn__add">Submit</button>
-  </form>
+    </form>
 </div>
 
-{% endblock showhere %}
-
-
 </body>
+{% endblock showhere %}
 </html>

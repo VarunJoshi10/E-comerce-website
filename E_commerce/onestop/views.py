@@ -360,13 +360,29 @@ def paymenthandler(request):
 
 
 def sellerLogin(request):
+    if request.method == 'POST':
+        btn_name = request.POST.get('btn')
+
+        if btn_name == 'Sign up':
+
+            
+
+            return render(request, 'seller_profile.html')
+        
+        elif btn_name == 'Log in':
+            return render(request, 'seller_profile.html')
     return render(request, 'seller_signup.html')
 
 def customerProfile(request):
     return render(request, 'customer_profile.html')
 
 def sellerProfile(request):
+
     return render(request, 'seller_profile.html')
 
 def pr(request):
     return render(request, 'pr1.html')
+
+
+def mainSellerProfile(request):
+    return render(request, 'seller_main_profile.html')

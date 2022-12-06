@@ -40,7 +40,7 @@ class Products(models.Model):
 class Seller(models.Model):
     Id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=200)
-    # password = models.CharField(max_length=200)
+    password = models.CharField(max_length=200, default='')
     Mobile = models.IntegerField()
     ShopName = models.CharField(max_length=200)
     VerificationDocument = models.ImageField(upload_to='seller_documents', default='')

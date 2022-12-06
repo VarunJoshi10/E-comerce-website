@@ -250,24 +250,24 @@ html, body {
 <div class="form-structor">
 	<div class="signup">
 		<h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
-		<form>
+		<form action="/sellerLogin/" method="post">
       <div class="form-holder">
         <input type="text" class="input" placeholder="Name" name="signup_name"/>
         <input type="email" class="input" placeholder="Email" name="signup_email"/>
         <input type="password" class="input" placeholder="Password" name="signup_password"/>
       </div>
-      <button type="submit" id="signup" class="submit-btn" name="signup_btn">Sign up</button>
+      <button type="submit" id="signup" class="submit-btn" name="btn" value="Sign up">Sign up</button>
     </form>
 	</div>
 	<div class="login slide-up">
 		<div class="center">
 			<h2 class="form-title" id="login"><span>or</span>Log in</h2>
-			<form>
+			<form action="/sellerLogin/" method="post">
         <div class="form-holder">
           <input type="email" class="input" placeholder="Email" />
           <input type="password" class="input" placeholder="Password" />
         </div>
-        <button type="submit" id="login" class="submit-btn" name="login_btn">Log in</button>
+        <button type="submit" id="login" class="submit-btn" name="btn" value="Log in">Log in</button>
       </form>
 		</div>
 	</div>
