@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Products, Cart, PaymentDetails, SellerSales
+from .models import Products, Cart, PaymentDetails, SellerSales, Seller
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
@@ -365,12 +365,22 @@ def sellerLogin(request):
 
         if btn_name == 'Sign up':
 
-            
-
             return render(request, 'seller_profile.html')
         
         elif btn_name == 'Log in':
-            return render(request, 'seller_profile.html')
+
+            mob = request.POST.get("mob")
+            password = request.POST.get("pass")
+
+            seller_obj = Seller.objects.get(Mobile = mob, password = password)
+            
+            context = {
+                'seller_obj' : seller_obj
+            }
+
+            return render(request, 'seller_profile.html', context)
+        
+
     return render(request, 'seller_signup.html')
 
 def customerProfile(request):
