@@ -364,3 +364,9 @@ def sellerLogin(request):
 
 def customerProfile(request):
     return render(request, 'customer_profile.html')
+
+def sellerProfile(request):
+    return render(request, 'seller_profile.html')
+
+def pr(request):
+    return render(request, 'pr1.html')

@@ -1,3 +1,5 @@
+{% extends 'seller_profile.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     
 
-    <title>Document</title>
 </head>
 <body>
+  {% block showhere %}
     <style>
-        @import "./styleReset.css";
 
 body {
   font-family: "Source Sans Pro", sans-serif;
@@ -252,38 +253,42 @@ a {
 }
 
     </style>
-<div class="wrapper">
-    <div class="under"></div>
-    <div class="form__container">
-        <h1>Product Information</h1>
-    <form class="add__form" action="URL">
-        <p class="form__title">Name</p>
-        <input type="text" placeholder="Enter Product Name">
-        <p class="description">Product Description</p>
-        <textarea class="description__input" placeholder="Describe your product in  less than 200 words"></textarea>
-        <p class="form__title">Product Price</p>
-        <input type="text" placeholder="Enter Product Price">
-        <p class="form__title">Product Category</p>
-    <br>&emsp;<br>
-        <select> 
-            <option value="men">Mens</option> 
-            <option value="women">Womens</option> 
-            <option value="kid">Kids</option> 
-            
-            </option> 
-        </select><br>
-        <p class="form__title">Sub-Category</p>
-    <br>&emsp;<br>
-        <select> 
-            <option value="winter">Winter</option> 
-            <option value="summer">Summer</option> 
-            
-            </option> 
-        </select>
-       
-        <button class="btn__add">Submit</button>
-    </form>
+
+<div class="wrapper"> 
+  <div class="under"></div>
+  <div class="form__container" style="margin:300px; margin-top:-30px">
+      <h1>Product Information</h1>
+  <form class="add__form" action="URL">
+      <p class="form__title">Name</p>
+      <input type="text" placeholder="Enter Product Name">
+      <p class="description">Product Description</p>
+      <textarea class="description__input" placeholder="Describe your product in  less than 200 words"></textarea>
+      <p class="form__title">Product Price</p>
+      <input type="text" placeholder="Enter Product Price">
+      <p class="form__title">Product Category</p>
+  <br>&emsp;<br>
+      <select> 
+          <option value="men">Mens</option> 
+          <option value="women">Womens</option> 
+          <option value="kid">Kids</option> 
+          
+          </option> 
+      </select><br>
+      <p class="form__title">Sub-Category</p>
+  <br>&emsp;<br>
+      <select> 
+          <option value="winter">Winter</option> 
+          <option value="summer">Summer</option> 
+          
+          </option> 
+      </select>
+     
+      <button class="btn__add">Submit</button>
+  </form>
 </div>
+
+{% endblock showhere %}
+
 
 </body>
 </html>
