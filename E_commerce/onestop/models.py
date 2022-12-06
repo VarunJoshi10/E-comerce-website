@@ -99,3 +99,12 @@ class SellerSales(models.Model):
 
     def __str__(self) -> str:
         return str(self.sellerId) + " --> " + str(self.sales)
+    
+
+class currSeller(models.Model):
+    s_no = models.IntegerField(default=1)
+    seller_id = models.IntegerField()
+
+    def __str__(self):
+        return 'current_seller --> ' + str(self.s_no)
+        

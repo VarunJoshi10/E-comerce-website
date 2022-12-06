@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Products, Cart, PaymentDetails, SellerSales, Seller
+from .models import Products, Cart, PaymentDetails, SellerSales, Seller, currSeller
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
@@ -166,49 +166,54 @@ def regis(request):
 
 
 def graph(request):
+
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
+
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
     # General items
-    m_products = Products.objects.filter(listedBy = 1002 ,category = 'Mens').count()
+    m_products = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Mens').count()
 
-    w_products = Products.objects.filter(listedBy = 1002 ,category = 'Women').count()
+    w_products = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Women').count()
 
-    k_proucts =Products.objects.filter(listedBy = 1002 ,category = 'Kids').count()
+    k_proucts =Products.objects.filter(listedBy = seller_obj.Id ,category = 'Kids').count()
 
-    total_products = Products.objects.filter(listedBy = 1002).count()
+    total_products = Products.objects.filter(listedBy = seller_obj.Id).count()
 
-    summer_products = Products.objects.filter(listedBy = 1002,sub_category = 'Summer').count()
-    winter_products = Products.objects.filter(listedBy = 1002,sub_category = 'Winter').count()
+    summer_products = Products.objects.filter(listedBy = seller_obj.Id,sub_category = 'Summer').count()
+    winter_products = Products.objects.filter(listedBy = seller_obj.Id,sub_category = 'Winter').count()
 
-    total_sales = SellerSales.objects.filter(sellerId = 1002).aggregate(Sum('sales'))['sales__sum']
+    total_sales = SellerSales.objects.filter(sellerId = seller_obj.Id).aggregate(Sum('sales'))['sales__sum']
 
-    sales_in_months = SellerSales.objects.filter(sellerId = 1002).values('month').annotate(the__count=Count('month'))
+    sales_in_months = SellerSales.objects.filter(sellerId = seller_obj.Id).values('month').annotate(the__count=Count('month'))
 
 
     # Summer items
-    m_products_summer = Products.objects.filter(listedBy = 1002 ,category = 'Mens', sub_category = 'Summer').count()
+    m_products_summer = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Mens', sub_category = 'Summer').count()
 
-    w_products_summer = Products.objects.filter(listedBy = 1002 ,category = 'Women', sub_category = 'Summer').count()
+    w_products_summer = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Women', sub_category = 'Summer').count()
 
-    k_proucts_summer =Products.objects.filter(listedBy = 1002 ,category = 'Kids', sub_category = 'Summer').count()
+    k_proucts_summer =Products.objects.filter(listedBy = seller_obj.Id ,category = 'Kids', sub_category = 'Summer').count()
 
-    total_products_summer = Products.objects.filter(listedBy = 1002,sub_category = 'Summer' ).count()
+    total_products_summer = Products.objects.filter(listedBy = seller_obj.Id,sub_category = 'Summer' ).count()
 
-    total_sales_summer = SellerSales.objects.filter(sellerId = 1002,sub_category = 'Summer').aggregate(Sum('sales'))['sales__sum']
+    total_sales_summer = SellerSales.objects.filter(sellerId = seller_obj.Id,sub_category = 'Summer').aggregate(Sum('sales'))['sales__sum']
 
-    sales_in_months_summer = SellerSales.objects.filter(sellerId = 1002 , sub_category = 'Summer').values('month').annotate(the__count=Count('month'))
+    sales_in_months_summer = SellerSales.objects.filter(sellerId = seller_obj.Id , sub_category = 'Summer').values('month').annotate(the__count=Count('month'))
 
 
     # Summer winter
-    m_products_winter = Products.objects.filter(listedBy = 1002 ,category = 'Mens', sub_category = 'Winter').count()
+    m_products_winter = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Mens', sub_category = 'Winter').count()
 
-    w_products_winter = Products.objects.filter(listedBy = 1002 ,category = 'Women', sub_category = 'Winter').count()
+    w_products_winter = Products.objects.filter(listedBy = seller_obj.Id ,category = 'Women', sub_category = 'Winter').count()
 
-    k_proucts_winter =Products.objects.filter(listedBy = 1002 ,category = 'Kids', sub_category = 'Winter').count()
+    k_proucts_winter =Products.objects.filter(listedBy = seller_obj.Id ,category = 'Kids', sub_category = 'Winter').count()
 
-    total_products_winter = Products.objects.filter(listedBy = 1002,sub_category = 'Winter' ).count()
+    total_products_winter = Products.objects.filter(listedBy = seller_obj.Id,sub_category = 'Winter' ).count()
 
-    total_sales_winter = SellerSales.objects.filter(sellerId = 1002,sub_category = 'Winter').aggregate(Sum('sales'))['sales__sum']
+    total_sales_winter = SellerSales.objects.filter(sellerId = seller_obj.Id,sub_category = 'Winter').aggregate(Sum('sales'))['sales__sum']
 
-    sales_in_months_winter = SellerSales.objects.filter(sellerId = 1002 , sub_category = 'Winter').values('month').annotate(the__count=Count('month'))
+    sales_in_months_winter = SellerSales.objects.filter(sellerId = seller_obj.Id , sub_category = 'Winter').values('month').annotate(the__count=Count('month'))
 
     doghnut_data_all = {
         'Mens' : m_products,
@@ -229,6 +234,8 @@ def graph(request):
     }
 
     context = {
+        'seller_obj' : seller_obj,
+    
         'doghnut_data_all' : doghnut_data_all,
         'total_products': total_products,
         'winter_products' : winter_products,
@@ -356,7 +363,6 @@ def paymenthandler(request):
     else:
        # if other than POST request is made.
         return render(request,'payment_fail.html')
-    
 
 
 def sellerLogin(request):
@@ -374,6 +380,9 @@ def sellerLogin(request):
 
             seller_obj = Seller.objects.get(Mobile = mob, password = password)
             
+            currSeller_obj = currSeller(s_no = 1, seller_id = seller_obj.Id)
+            currSeller_obj.save()
+            
             context = {
                 'seller_obj' : seller_obj
             }
@@ -386,13 +395,37 @@ def sellerLogin(request):
 def customerProfile(request):
     return render(request, 'customer_profile.html')
 
-def sellerProfile(request):
+def sellerProfile(request):          
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
 
-    return render(request, 'seller_profile.html')
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
+    context = {
+                'seller_obj' : seller_obj
+            }
+    return render(request, 'seller_profile.html', context)
 
 def pr(request):
-    return render(request, 'pr1.html')
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
+
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
+    context = {
+                'seller_obj' : seller_obj
+            }
+    return render(request, 'pr1.html',context)
 
 
 def mainSellerProfile(request):
-    return render(request, 'seller_main_profile.html')
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
+
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
+    context = {
+                'seller_obj' : seller_obj
+            }
+    return render(request, 'seller_main_profile.html',context)
+
+def sellerLogout(request):
+    currSeller.objects.get(s_no = 1).delete()
+    return redirect('/sellerLogin')

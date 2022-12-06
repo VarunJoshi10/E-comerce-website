@@ -132,16 +132,22 @@
 </style>
 <header class="header" role="banner">
   <h1 class="logo">
-    <a href="#">Seller <span>{{seller_obj.name}}</span></a>
+    <a href="#">Seller <span>
+      {% block seller_name %}
+      {{seller_obj.name}}
+      {% endblock seller_name %}
+      
+    </span></a>
   </h1>
   <div class="nav-wrap">
     <nav class="main-nav" role="navigation">
       <ul class="unstyled list-hover-slide">
+        
         <li><a href="/seller_profile_main">Profile</a></li>
         <li><a href="/pr">Add product to cart</a></li>
         <li><a href="#">View product</a></li>
         <li><a href="/graph">Dashboard</a></li>
-        <li><a href="/sellerLogin">Logout</a></li>
+        <li><a href="/seller_logout">Logout</a></li>
       
       </ul>
     </nav>
