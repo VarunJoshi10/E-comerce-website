@@ -360,4 +360,7 @@ def paymenthandler(request):
 
 
 def sellerLogin(request):
-    return render(request, 'seller_login.html   ')
+    return render(request, 'seller_signup.html')
+
+def customerProfile(request):
+    return render(request, 'customer_profile.html')

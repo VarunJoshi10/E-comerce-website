@@ -17,4 +17,5 @@ urlpatterns = [
     path('graph/', views.graph ,name='graph'),
     path('cart/', views.cart,name='cartPage'),
     path('sellerLogin/', views.sellerLogin,name='sellerLogin'),
+    path('customerProfile/', views.customerProfile,name='customerProfile'),
 ]
