@@ -344,17 +344,15 @@ def paymenthandler(request):
                     order_details.Status = 'Falied'
                     order_details.save()
                     # if there is an error while capturing payment.
-                    return HttpResponse("This will be the faliure page")
+                    return render(request,'payment_fail.html')
             else:
                 order_details.Status = 'Failed'
                 order_details.save()
                 # if signature verification fails.
-                return HttpResponse("This will be the faliure page")
+                return render(request,'payment_fail.html')
         except:
-            order_details.Status = 'Failed'
-            order_details.save()
             # if we don't find the required parameters in POST data
-            return HttpResponse("This will be the faliure page")
+            return render(request,'payment_fail.html')
     else:
        # if other than POST request is made.
-        return HttpResponse("This will be the faliure page")
+        return render(request,'payment_fail.html')
