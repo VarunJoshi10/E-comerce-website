@@ -20,6 +20,9 @@ from django.db.models import Sum, Count
 
 import datetime
 
+# For image uploading from html page
+from django.core.files.storage import FileSystemStorage
+
 # Create your views here.
 
 
@@ -413,6 +416,23 @@ def pr(request):
     context = {
                 'seller_obj' : seller_obj
             }
+    
+    if request.method == "POST":
+        prod_name = request.POST.get('prod_name')
+        prod_desc = request.POST.get('prod_desc')
+        prod_price = request.POST.get('prod_price')
+        prod_category = request.POST.get('category')
+        prod_sub_category = request.POST.get('sub_category')
+        image = request.FILES.get('upload_img')
+
+        new_prod = Products(listedBy = currSeller_obj.seller_id, name = prod_name, price = int(prod_price),
+            category = prod_category, sub_category = prod_sub_category, description = prod_desc,
+            image = image)
+        
+        new_prod.save()
+
+        return render(request, 'pr1.html',context)
+
     return render(request, 'pr1.html',context)
 
 
