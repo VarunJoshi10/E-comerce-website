@@ -52,16 +52,22 @@ def landing_page(request):
                 return redirect('/')
             
         elif request.POST.get('btn_name') == 'Sign up':
-            u_name = request.POST.get('uname')
-            u_email = request.POST.get('email')
-            u_pass = request.POST.get('pass')
+            try:
+                u_name = request.POST.get('uname')
+                u_email = request.POST.get('email')
+                u_pass = request.POST.get('pass')
 
-            new_user = User.objects.create_user(u_name,u_email,u_pass)
-            new_user.save()
+                new_user = User.objects.create_user(u_name,u_email,u_pass)
+                new_user.save()
 
-            messages.success(request, 'User created and logged in successfully!!')
+                messages.success(request, 'User created and logged in successfully!!')
 
-            return render(request, 'landing.html',context={'uname':new_user})
+                return render(request, 'landing.html',context={'uname':new_user})
+            except:
+                messages.error(request, 'Please change username')
+
+                return render(request, 'signup.html')
+
 
         elif request.POST.get('btn_name') == 'go_home':
             return render(request, 'landing.html')
@@ -107,6 +113,8 @@ def mens_main(request):
                 sub_category = product_details['sub_category'])
             cart_obj.save()
 
+            messages.success(request, "Item Added to cart")
+
     return render(request, 'mens_main.html',context)
 
 def women_main(request):
@@ -133,6 +141,8 @@ def women_main(request):
                 category = product_details['category'],
                 sub_category = product_details['sub_category'])
             cart_obj.save()
+
+            messages.success(request, "Item added to cart")
 
 
     return render(request, 'women_main.html',context)
@@ -162,11 +172,9 @@ def kids_main(request):
                 sub_category = product_details['sub_category'])
             cart_obj.save()
 
+            messages.success(request, "Item added to cart")
+
     return render(request, 'kids_main.html', context)
-
-
-def regis(request):
-    return render(request, 'snippets.html')
 
 
 def graph(request):
@@ -290,6 +298,7 @@ def cart(request):
         context['razorpay_amount'] = amount
         context['currency'] = currency
         context['callback_url'] = callback_url
+        context['original_price'] = total_price
 
         # Adding the cart items to the page
         context['cart'] = cart
@@ -414,6 +423,10 @@ def sellerLogin(request):
     return render(request, 'seller_signup.html')
 
 def customerProfile(request):
+    if request.method == 'POST':
+        logout(request)
+        messages.success(request, "Logout Successfully!!")
+        return redirect('/')
     return render(request, 'customer_profile.html')
 
 def sellerProfile(request):          

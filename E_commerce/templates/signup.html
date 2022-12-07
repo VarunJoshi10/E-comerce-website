@@ -22,6 +22,31 @@
             </div>
         </div>
     </div>
+
+    {% if messages %}
+                
+            {% for message in messages %}
+
+                    {% if message.tags == 'error' %} 
+                        <!--Added from w3schools-->
+                        <div class="alert alert-danger alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{message}}</strong> 
+                        </div>
+                    {% endif %}
+            
+                    {% if message.tags == 'success' %} 
+                        <!--Added from w3schools-->
+                        <div class="alert alert-success alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{message}}</strong> 
+                        </div>
+                    {% endif %}
+                    
+                {% endfor %}
+            
+        {% endif %}
+
     <div id="signup_container">
         <form method="post" action="/landing/">
             {% csrf_token %}

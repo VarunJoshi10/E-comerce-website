@@ -42,9 +42,16 @@
                     <td>{{i.prod_id}}</td>
                     <td>{{i.title}}</td>
                     <td>{{i.listedBy}}</td>
-                    <td>{{i.price}}</td>
+                    <td>₹{{i.price}}/-</td>
                 </tr>
             {% endfor %}
+
+            <tr>
+              <td><b>Total</b></td>
+              <td></td>
+              <td></td>
+              <td>₹{{ original_price }}/-</td>
+          </tr>
             </tbody>
         </table>
     </div>
