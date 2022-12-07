@@ -522,8 +522,8 @@ def viewProduct(request):
     currSeller_obj = currSeller.objects.get(s_no = 1) 
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
-    
-    product_obj = Products.objects.all().filter(listedBy = seller_obj.Id)
+
+    product_obj = Products.objects.all().filter(listedBy = seller_obj.Id).values('image', 'name', 'price', 'description')
 
     print(product_obj)
 
