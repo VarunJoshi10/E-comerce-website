@@ -17,21 +17,31 @@
     <!-- Start of NavBar -->
     <div id="navbar">
         <div>
-            <a href="/landing/"><img src="/media/images/logo.png"></a>
+          <a href="/landing/"><img src="/media/images/logo.png"></a>
         </div>
+        
         
         <div id="products_page">
             <div><a href="/mens/" style="color: black; text-decoration: none">MEN</a></div>
             <div><a href="/women/" style="color: black; text-decoration: none">WOMEN</a></div>
             <div><a href="/kids/" style="color: black; text-decoration: none">KIDS</a></div>
         </div>
-
+        
         <div>
-            <input type="text" name="search" id="search-bar" placeholder="Search for products, brands & more">
+            
+        </div>
+        &emsp;&emsp;
+        <div >
+            <a href="/cart"><img src="/media/images/cartt.png" alt="Cart Picture" ></a>
+        </div>
+        &emsp;&emsp;
+        <div >
+            <a href="/customerProfile"><img src="/media/images/proh.png" alt="Profile Picture" ></a>
         </div>
         <div id="login_Status">
         </div>
     </div>
+
     <!-- End of Navbar -->
 
     {% for i in mens_products %}
@@ -48,6 +58,63 @@
         </form>
       </div>
       {% endfor %}
+      <div id="end-container">
+        <footer class="footer">
+            <div class="footer__addr">
+              <h1 class="footer__logo">One Stop</h1>
+                  
+              <h2>Contact</h2>
+              
+              <address>
+                5534 Somewhere In. The World 22193-10212<br>
+                    
+                <a class="footer__btn" href="mailto:example@gmail.com">Email Us</a>
+              </address>
+            </div>
+            
+            <ul class="footer__nav">
+              <li class="nav__item">
+                <h2 class="nav__title">Online Shopping</h2>
+          
+                <ul class="nav__ul">
+                  <li>
+                    <a href="/kids/">Kids</a>
+                  </li>
+          
+                  <li>
+                    <a href="/mens/">Mens</a>
+                  </li>
+                      
+                  <li>
+                    <a href="/women/">Women</a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li class="nav__item nav__item--extra">
+                <h2 class="nav__title">Customer Policies</h2>
+                
+                <ul class="nav__ul nav__ul--extra">
+                  <li>
+                    <a href="#">FAQ</a>
+                  </li>
+                  
+                  <li>
+                    <a href="#">Terms and conditions</a>
+                  </li>
+                  
+                  <li>
+                    <a href="#">Contact Us</a>
+                  </li>
+                  <li class="nav__item ">
+                    </li>
+                
+                <div class="legal">
+                  <p><br>&copy;2022 OneStop. All rights reserved.</p>
+                  
+                  <div class="legal__links">
+                    <span>Made with <span class="heart">♥</span> OneStop</span>
+                  </div>
 
 </body>
 </html>
