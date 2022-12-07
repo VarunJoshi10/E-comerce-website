@@ -484,17 +484,30 @@ def mainSellerProfile(request):
         currSeller_obj = currSeller.objects.get(s_no = 1)
         
         image = request.FILES.get('upload_img')
-
-        seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
-        seller_obj.VerificationDocument = image
-
-        seller_obj.save()
         
-        context = {
-            'seller_obj' : seller_obj
-        }
+        seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
-        return render(request, 'seller_profile.html', context)
+        context = {
+                'seller_obj' : seller_obj
+            }
+
+        if image != None:
+            seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+            seller_obj.VerificationDocument = image
+
+            seller_obj.save()
+
+            messages.success(request, "Document Uploaded Successfully")
+            
+            context = {
+                'seller_obj' : seller_obj
+            }
+
+            return render(request, 'seller_main_profile.html', context)
+        
+        else:
+            messages.error(request, "Please upload the document")
+            return render(request, 'seller_main_profile.html', context)
 
     context = {
                 'seller_obj' : seller_obj
@@ -509,8 +522,8 @@ def viewProduct(request):
     currSeller_obj = currSeller.objects.get(s_no = 1) 
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
-
-    product_obj = Products.objects.filter(listedBy = seller_obj.Id).values().all()
+    
+    product_obj = Products.objects.all().filter(listedBy = seller_obj.Id)
 
     print(product_obj)
 
