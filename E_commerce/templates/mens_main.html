@@ -76,9 +76,9 @@
         {% endif %}
 
     {% for i in mens_products %}
-      <div class="card" style="width: 18rem; display: inline-block; margin-left: 2.5rem;">
+      <div class="card" style="width: 18rem; display: inline-block; margin-left: 2.5rem; margin-top: 40px;">
         <form method="post" action="/mens/">
-            <img src="{{ i.image.url }}" class="card-img-top" alt="{{i.name}}" style="height: 18rem;">
+            <img src="{{ i.image.url }}" class="card-img-top" alt="{{i.name}}" height="300px">
             <div class="card-body">
                 <h5 class="card-title">{{ i.name }}</h5>
                 <p class="card-text">{{ i.description }} </p>
