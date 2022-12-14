@@ -1,0 +1,25 @@
+{% extends 'seller_profile.html' %}
+
+{% block seller_name %}
+
+    {{seller_obj.name}}
+
+{% endblock seller_name %}
+
+
+{% block showhere %}
+
+    <body style="padding: 20px 20px 20px 0;">
+
+        <div >
+            {% for i in orders %}
+
+                {{i}}
+        
+            {% endfor %}
+        </div>
+
+    </body>
+
+{% endblock showhere %}
+    

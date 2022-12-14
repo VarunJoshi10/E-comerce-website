@@ -108,3 +108,24 @@ class currSeller(models.Model):
     def __str__(self):
         return 'current_seller --> ' + str(self.s_no)
         
+    
+
+class OrderStatus(models.Model):
+    user_id = models.IntegerField()
+    prod_id = models.IntegerField()
+    listedBy = models.IntegerField(default=0)
+    title = models.CharField(max_length=200,default='')
+    price = models.IntegerField(default=0)
+    category = models.CharField(max_length=200,default='')
+
+    status_choices = (
+        ('Not Dispatched' , 'Not Dispatched'),
+        ('Packed', 'Packed'),
+        ('On the way', 'On the way'),
+        ('Delivered', 'Delivered')
+    )
+
+    status = models.CharField(choices=status_choices, default='Not Dispatched', max_length=50)
+
+    def __str__(self) -> str:
+        return "UserId: " + str(self.user_id) + " ProductId: " + str(self.prod_id) + " Status: " + self.status

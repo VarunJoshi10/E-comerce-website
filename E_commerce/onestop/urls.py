@@ -22,4 +22,5 @@ urlpatterns = [
     path('seller_profile_main/', views.mainSellerProfile,name='main_profile_seller'),
     path('seller_logout/', views.sellerLogout,name='seller_logout'),
     path('viewProduct/', views.viewProduct,name='viewProduct'),
+    path('sellerOrders/', views.sellerOrders,name='sellerOrders'),
 ]

@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialAccount
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Products, Cart, PaymentDetails, SellerSales, Seller, currSeller
+from .models import Products, Cart, PaymentDetails, SellerSales, Seller, currSeller, OrderStatus
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
@@ -356,7 +356,18 @@ def paymenthandler(request):
                             sub_category = i['sub_category'], month = order_details.Month) 
                         seller.save()
 
-                    cart_obj = Cart.objects.filter(user_id = order_details.Customer_id).delete()
+                    cart_obj = Cart.objects.filter(user_id = order_details.Customer_id).values()
+
+                    for i in cart_obj:
+                        order = OrderStatus(user_id = i['user_id'], prod_id = i['prod_id'], 
+                            listedBy = i['listedBy'],title = i['title'],
+                            price = i['price'], category = i['category'],
+                            status = 'Not Dispatched')
+                        order.save() 
+
+                    cart_obj_del = Cart.objects.filter(user_id = order_details.Customer_id).delete()
+
+
  
                     # render success page on successful caputre of payment
                     return render(request, 'payment_success.html')
@@ -532,3 +543,17 @@ def viewProduct(request):
                 'product_obj': product_obj
             }
     return render(request, 'seller_products_view.html', context)
+
+def sellerOrders(request):
+    currSeller_obj = currSeller.objects.get(s_no = 1) 
+
+    seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
+
+    ongoingOrders = OrderStatus.objects.filter(listedBy = currSeller_obj.seller_id).values()
+
+    context = {
+                'seller_obj' : seller_obj,
+                'orders' : ongoingOrders
+            }
+
+    return render(request, 'SellerOrders.html', context)
