@@ -544,6 +544,7 @@ def viewProduct(request):
             }
     return render(request, 'seller_products_view.html', context)
 
+
 def sellerOrders(request):
     currSeller_obj = currSeller.objects.get(s_no = 1) 
 
