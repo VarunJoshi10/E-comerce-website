@@ -101,19 +101,24 @@ def mens_main(request):
         if btn_name == 'Add to Cart':
             product_id = request.POST.get("pid")
 
-            product_details = Products.objects.filter(product_id=product_id).values()[0]
+            product_ids = Cart.objects.filter(user_id = request.user.id, prod_id = product_id)
 
-            # Make a alert here if same product is already present in the cart by the same user
-            # Use messages 
+            if len(product_ids) != 0:
+                messages.error(request, "Item already in cart")
+            else:
+                product_details = Products.objects.filter(product_id=product_id).values()[0]
 
-            cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                title = product_details['name'], 
-                price = product_details['price'],
-                category = product_details['category'],
-                sub_category = product_details['sub_category'])
-            cart_obj.save()
+                # Make a alert here if same product is already present in the cart by the same user
+                # Use messages 
 
-            messages.success(request, "Item Added to cart")
+                cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
+                    title = product_details['name'], 
+                    price = product_details['price'],
+                    category = product_details['category'],
+                    sub_category = product_details['sub_category'])
+                cart_obj.save()
+
+                messages.success(request, "Item Added to cart")
 
     return render(request, 'mens_main.html',context)
 
@@ -130,20 +135,24 @@ def women_main(request):
         if btn_name == 'Add to Cart':
             product_id = request.POST.get("pid")
 
-            product_details = Products.objects.filter(product_id=product_id).values()[0]
+            product_ids = Cart.objects.filter(user_id = request.user.id, prod_id = product_id)
 
-            # Make a alert here if same product is already present in the cart by the same user
-            # Use messages 
+            if len(product_ids) != 0:
+                messages.error(request, "Item already in cart")
+            else:
+                product_details = Products.objects.filter(product_id=product_id).values()[0]
 
-            cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                title = product_details['name'], 
-                price = product_details['price'],
-                category = product_details['category'],
-                sub_category = product_details['sub_category'])
-            cart_obj.save()
+                # Make a alert here if same product is already present in the cart by the same user
+                # Use messages 
 
-            messages.success(request, "Item added to cart")
+                cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
+                    title = product_details['name'], 
+                    price = product_details['price'],
+                    category = product_details['category'],
+                    sub_category = product_details['sub_category'])
+                cart_obj.save()
 
+                messages.success(request, "Item added to cart")
 
     return render(request, 'women_main.html',context)
 
@@ -159,20 +168,25 @@ def kids_main(request):
 
         if btn_name == 'Add to Cart':
             product_id = request.POST.get("pid")
-            
-            product_details = Products.objects.filter(product_id=product_id).values()[0]
 
-            # Make a alert here if same product is already present in the cart by the same user
-            # Use messages 
+            product_ids = Cart.objects.filter(user_id = request.user.id, prod_id = product_id)
 
-            cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
-                title = product_details['name'], 
-                price = product_details['price'],
-                category = product_details['category'],
-                sub_category = product_details['sub_category'])
-            cart_obj.save()
+            if len(product_ids) != 0:
+                messages.error(request, "Item already in cart")
+            else:
+                product_details = Products.objects.filter(product_id=product_id).values()[0]
 
-            messages.success(request, "Item added to cart")
+                # Make a alert here if same product is already present in the cart by the same user
+                # Use messages 
+
+                cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
+                    title = product_details['name'], 
+                    price = product_details['price'],
+                    category = product_details['category'],
+                    sub_category = product_details['sub_category'])
+                cart_obj.save()
+
+                messages.success(request, "Item added to cart")
 
     return render(request, 'kids_main.html', context)
 
