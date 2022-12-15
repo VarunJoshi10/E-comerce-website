@@ -11,13 +11,74 @@
 
     <body style="padding: 20px 20px 20px 0;">
 
-        <div >
-            {% for i in orders %}
+        {% if orders %}
 
-                {{i}}
+            <div >
+               
+                {% for i in orders %}
+
+                    <div style="border-radius: 10px; padding: 10px; border: 2px solid black;">
+
+                        Customer Id: {{i.user_id}} <br><br>
+                        Product Id: {{i.prod_id}} <br><br>
+                        Product Name: {{i.title}} <br><br>
+                        Product Price: {{i.price}}/- <br><br>
+                        Product Category: {{i.category}} <br><br>
+
+                        <!-- Put cust_id and prod_id in the if form so that we can update the status of the product -->
+
+                        Order Status: 
+                            {% if i.status == 'Not Dispatched' %}
+                                <select name="getStatus">
+                                    <option value="Not Dispatched" selected>Not Dispatched</option>
+                                    <option value="Packed">Packed</option>
+                                    <option value="On the way">On the way</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+
+                                <br><br>
+
+                                <button type="submit">Update Status</button>
+                            {% endif %}
+
+                            {% if i.status == 'Packed' %}
+                                <select name="getStatus">
+                                    <option value="Packed" selected>Packed</option>
+                                    <option value="On the way">On the way</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+
+                                <br><br>
+
+                                <button type="submit">Update Status</button>
+                            {% endif %}
+
+                            {% if i.status == 'On the way' %}
+                                <select name="getStatus">
+                                    <option value="On the way" selected>On the way</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+
+                                <br><br>
+
+                                <button type="submit">Update Status</button>
+                            {% endif %}
+
+                    </div>
+
+                    <br>
+            
+                {% endfor %}
+            
+            </div>
         
-            {% endfor %}
-        </div>
+        {% else %}
+
+            No orders are currently placed
+            
+        {% endif %}
+
+        
 
     </body>
 
