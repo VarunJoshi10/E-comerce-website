@@ -16,7 +16,8 @@ from .models import Products, Cart, PaymentDetails, SellerSales, Seller, currSel
 
 from E_commerce.settings import RAZOR_KEY_ID, RAZOR_KEY_SECRET
 
-from django.db.models import Sum, Count
+# Q for complex queries
+from django.db.models import Sum, Count, Q
 
 import datetime
 
@@ -106,10 +107,7 @@ def mens_main(request):
             if len(product_ids) != 0:
                 messages.error(request, "Item already in cart")
             else:
-                product_details = Products.objects.filter(product_id=product_id).values()[0]
-
-                # Make a alert here if same product is already present in the cart by the same user
-                # Use messages 
+                product_details = Products.objects.filter(product_id=product_id).values()[0] 
 
                 cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                     title = product_details['name'], 
@@ -142,8 +140,6 @@ def women_main(request):
             else:
                 product_details = Products.objects.filter(product_id=product_id).values()[0]
 
-                # Make a alert here if same product is already present in the cart by the same user
-                # Use messages 
 
                 cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                     title = product_details['name'], 
@@ -175,9 +171,6 @@ def kids_main(request):
                 messages.error(request, "Item already in cart")
             else:
                 product_details = Products.objects.filter(product_id=product_id).values()[0]
-
-                # Make a alert here if same product is already present in the cart by the same user
-                # Use messages 
 
                 cart_obj = Cart(user_id=request.user.id, prod_id = product_id,listedBy = product_details['listedBy'], 
                     title = product_details['name'], 
@@ -564,7 +557,8 @@ def sellerOrders(request):
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
-    ongoingOrders = OrderStatus.objects.filter(listedBy = currSeller_obj.seller_id).values()
+    ongoingOrders = OrderStatus.objects.filter(Q(listedBy = currSeller_obj.seller_id) &
+        Q(status = 'Dispatched') | Q(status = 'Out for Delivery') | Q(status = 'Packed')).values()
 
     context = {
                 'seller_obj' : seller_obj,

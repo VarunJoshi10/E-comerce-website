@@ -22,47 +22,52 @@
                         Customer Id: {{i.user_id}} <br><br>
                         Product Id: {{i.prod_id}} <br><br>
                         Product Name: {{i.title}} <br><br>
-                        Product Price: {{i.price}}/- <br><br>
+                        Product Price: ₹{{i.price}}/- <br><br>
                         Product Category: {{i.category}} <br><br>
 
                         <!-- Put cust_id and prod_id in the if form so that we can update the status of the product -->
 
-                        Order Status: 
-                            {% if i.status == 'Not Dispatched' %}
-                                <select name="getStatus">
-                                    <option value="Not Dispatched" selected>Not Dispatched</option>
-                                    <option value="Packed">Packed</option>
-                                    <option value="On the way">On the way</option>
-                                    <option value="Delivered">Delivered</option>
-                                </select>
-
-                                <br><br>
-
-                                <button type="submit">Update Status</button>
-                            {% endif %}
-
-                            {% if i.status == 'Packed' %}
+                         
+                        {% if i.status == 'Packed' %}
+                            <form method="post" action="/sellerOrders/">
+                                Order Status:
                                 <select name="getStatus">
                                     <option value="Packed" selected>Packed</option>
-                                    <option value="On the way">On the way</option>
+                                    <option value="Dispatched">Dispatched</option>
+                                    <option value="Out for Delivery">Out for Delivery</option>
                                     <option value="Delivered">Delivered</option>
                                 </select>
 
                                 <br><br>
 
                                 <button type="submit">Update Status</button>
-                            {% endif %}
+                            </form>
+                        {% endif %}
 
-                            {% if i.status == 'On the way' %}
-                                <select name="getStatus">
-                                    <option value="On the way" selected>On the way</option>
-                                    <option value="Delivered">Delivered</option>
-                                </select>
+                        {% if i.status == 'Dispatched' %}
+                            Order Status:
+                            <select name="getStatus">
+                                <option value="Dispatched" selected>Dispatched</option>
+                                <option value="Out for Delivery">Out for Delivery</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
 
-                                <br><br>
+                            <br><br>
 
-                                <button type="submit">Update Status</button>
-                            {% endif %}
+                            <button type="submit">Update Status</button>
+                        {% endif %}
+
+                        {% if i.status == 'Out for Delivery' %}
+                            Order Status:
+                            <select name="getStatus">
+                                <option value="Out for Delivery" selected>Out for Delivery</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+
+                            <br><br>
+
+                            <button type="submit">Update Status</button>
+                        {% endif %}
 
                     </div>
 

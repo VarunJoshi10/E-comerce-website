@@ -119,13 +119,13 @@ class OrderStatus(models.Model):
     category = models.CharField(max_length=200,default='')
 
     status_choices = (
-        ('Not Dispatched' , 'Not Dispatched'),
+        ('Dispatched' , 'Dispatched'),
         ('Packed', 'Packed'),
-        ('On the way', 'On the way'),
+        ('Out for Delivery', 'Out for Delivery'),
         ('Delivered', 'Delivered')
     )
 
-    status = models.CharField(choices=status_choices, default='Not Dispatched', max_length=50)
+    status = models.CharField(choices=status_choices, default='Dispatched', max_length=50)
 
     def __str__(self) -> str:
         return "UserId: " + str(self.user_id) + " ProductId: " + str(self.prod_id) + " Status: " + self.status
