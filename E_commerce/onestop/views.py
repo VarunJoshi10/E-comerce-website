@@ -369,7 +369,7 @@ def paymenthandler(request):
                         order = OrderStatus(user_id = i['user_id'], prod_id = i['prod_id'], 
                             listedBy = i['listedBy'],title = i['title'],
                             price = i['price'], category = i['category'],
-                            status = 'Not Dispatched')
+                            status = 'Packed')
                         order.save() 
 
                     cart_obj_del = Cart.objects.filter(user_id = order_details.Customer_id).delete()
@@ -557,6 +557,25 @@ def sellerOrders(request):
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
+    print(currSeller_obj.seller_id)
+
+    if request.method == "POST":
+        new_status = request.POST.get('getStatus')
+        cust_id = int(request.POST.get('cust_id'))
+        prod_i = int(request.POST.get('prod_id'))
+
+        update_status = OrderStatus.objects.get(listedBy = currSeller_obj.seller_id, user_id = cust_id, 
+            prod_id = prod_i)
+        
+        print(new_status, cust_id, prod_i)
+        
+        if update_status.status == new_status:
+            messages.error(request, "Need to change the status fist.")
+        else:
+            update_status.status = new_status
+            update_status.save()
+            messages.success(request,"Status of the product is updated.")
+
     ongoingOrders = OrderStatus.objects.filter(Q(listedBy = currSeller_obj.seller_id) &
         Q(status = 'Dispatched') | Q(status = 'Out for Delivery') | Q(status = 'Packed')).values()
 
@@ -564,5 +583,6 @@ def sellerOrders(request):
                 'seller_obj' : seller_obj,
                 'orders' : ongoingOrders
             }
+
 
     return render(request, 'SellerOrders.html', context)

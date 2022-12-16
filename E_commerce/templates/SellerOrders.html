@@ -6,70 +6,106 @@
 
 {% endblock seller_name %}
 
+{% block lib %}
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+{% endblock lib %}
+
 
 {% block showhere %}
 
     <body style="padding: 20px 20px 20px 0;">
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                {% if message.tags == 'success' %}
+                
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Great!</strong> {{message}}.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                {% endif %}
+
+                {% if message.tags == 'error' %}
+                
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Great!</strong> {{message}}.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+        
+        {% endif %}
 
         {% if orders %}
 
             <div >
                
                 {% for i in orders %}
-
+                <form method="post" action="/sellerOrders/">
+                    
                     <div style="border-radius: 10px; padding: 10px; border: 2px solid black;">
+                    
+                        <label style="font-family: sans-serif;">Customer Id: </label>{{i.user_id}} <br>
+                        <label style="font-family: sans-serif; margin-top: 10px;">Product Name: </label>{{i.title}} <br>
+                        <label style="font-family: sans-serif; margin-top: 10px;">Product Price: </label> ₹{{i.price}}/- <br>
+                        <label style="font-family: sans-serif; margin-top: 10px;">Product Category: </label> {{i.category}} <br>
 
-                        Customer Id: {{i.user_id}} <br><br>
-                        Product Id: {{i.prod_id}} <br><br>
-                        Product Name: {{i.title}} <br><br>
-                        Product Price: ₹{{i.price}}/- <br><br>
-                        Product Category: {{i.category}} <br><br>
-
-                        <!-- Put cust_id and prod_id in the if form so that we can update the status of the product -->
-
+                        <input type="hidden" name="cust_id" value="{{i.user_id}}">
+                        <input type="hidden" name="prod_id" value="{{i.prod_id}}">
                          
                         {% if i.status == 'Packed' %}
-                            <form method="post" action="/sellerOrders/">
-                                Order Status:
-                                <select name="getStatus">
-                                    <option value="Packed" selected>Packed</option>
-                                    <option value="Dispatched">Dispatched</option>
-                                    <option value="Out for Delivery">Out for Delivery</option>
-                                    <option value="Delivered">Delivered</option>
-                                </select>
+                            <label style="font-family: sans-serif;">Order Status:</label>
+                            <select name="getStatus" style="margin-top: 10px; margin-bottom: 10px;">
+                                <option value="Packed" selected>Packed</option>
+                                <option value="Dispatched">Dispatched</option>
+                                <option value="Out for Delivery">Out for Delivery</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
 
-                                <br><br>
+                            <br>
 
-                                <button type="submit">Update Status</button>
-                            </form>
+                            <button type="submit">Update Status</button>
+                            
                         {% endif %}
 
                         {% if i.status == 'Dispatched' %}
-                            Order Status:
-                            <select name="getStatus">
+                            <label style="font-family: sans-serif;">Order Status:</label>
+                            <select name="getStatus" style="margin-top: 10px; margin-bottom: 10px;">
                                 <option value="Dispatched" selected>Dispatched</option>
                                 <option value="Out for Delivery">Out for Delivery</option>
                                 <option value="Delivered">Delivered</option>
                             </select>
 
-                            <br><br>
+                            <br>
 
                             <button type="submit">Update Status</button>
                         {% endif %}
 
                         {% if i.status == 'Out for Delivery' %}
-                            Order Status:
-                            <select name="getStatus">
+                            <label style="font-family: sans-serif;">Order Status:</label>
+                            <select name="getStatus" style="margin-top: 10px; margin-bottom: 10px;">
                                 <option value="Out for Delivery" selected>Out for Delivery</option>
                                 <option value="Delivered">Delivered</option>
                             </select>
 
-                            <br><br>
+                            <br>
 
                             <button type="submit">Update Status</button>
                         {% endif %}
 
                     </div>
+
+                </form>
 
                     <br>
             
