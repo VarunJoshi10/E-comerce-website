@@ -586,3 +586,12 @@ def sellerOrders(request):
 
 
     return render(request, 'SellerOrders.html', context)
+
+
+def customerOrders(request):
+    orders = OrderStatus.objects.filter(user_id = request.user.id).values()
+
+    context = {
+        'orders': orders
+    }
+    return render(request, 'customer_orders.html',context)
