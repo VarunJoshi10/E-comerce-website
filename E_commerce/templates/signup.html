@@ -48,15 +48,15 @@
         {% endif %}
 
     <div id="signup_container">
-        <form method="post" action="/landing/">
+        <form method="post" action="/signup/">
             {% csrf_token %}
             <h2>Sign Up</h2>
             <label for="">Username</label><br />
             <input id="uname" name="uname" type="text" placeholder="Enter Username"><br />
             <label for="" >Email</label><br />
-            <input id="email" name="email" type="text" placeholder="Enter Email"><br />
+            <input id="email" name="email" type="email" placeholder="Enter Email"><br />
             <label for="">Password</label><br />
-            <input id="pass" name='pass' type="text" placeholder="Enter Password"><br />
+            <input id="pass" name='pass' type="password" placeholder="Enter Password"><br />
     
             <input type="submit" value="Sign up" name='btn_name'>
             <p>Already have an account? <a href="/">Sign in</a></p>

@@ -58,12 +58,12 @@ def landing_page(request):
                 u_email = request.POST.get('email')
                 u_pass = request.POST.get('pass')
 
-                new_user = User.objects.create_user(u_name,u_email,u_pass)
+                new_user = User.objects.create_user(u_name,u_email,u_pass,first_name = u_name)
                 new_user.save()
 
                 messages.success(request, 'User created and logged in successfully!!')
 
-                return render(request, 'landing.html',context={'uname':new_user})
+                return redirect('/')
             except:
                 messages.error(request, 'Please change username')
 
@@ -85,6 +85,22 @@ def landing_page(request):
 def signup(request):
     # if request.method == 'POST':
     #     pass
+    if request.POST.get('btn_name') == 'Sign up':
+        try:
+            u_name = request.POST.get('uname')
+            u_email = request.POST.get('email')
+            u_pass = request.POST.get('pass')
+
+            new_user = User.objects.create_user(u_name,u_email,u_pass)
+            new_user.save()
+
+            messages.success(request, 'User created and logged in successfully!!')
+
+            return redirect('/')
+        except:
+            messages.error(request, 'Please change username')
+
+            return render(request, 'signup.html')
 
     # Add unique constraint here for username  (check for the username if already exists then ask to change it)
     return render(request, 'signup.html')
@@ -541,9 +557,9 @@ def viewProduct(request):
 
     seller_obj = Seller.objects.get(Id = currSeller_obj.seller_id)
 
-    product_obj = Products.objects.all().filter(listedBy = seller_obj.Id).values('image', 'name', 'price', 'description')
+    product_obj = list(Products.objects.filter(listedBy = seller_obj.Id).values())
 
-    print(product_obj)
+    print(product_obj, len(product_obj))
 
     context = {
                 'seller_obj' : seller_obj,
@@ -576,8 +592,9 @@ def sellerOrders(request):
             update_status.save()
             messages.success(request,"Status of the product is updated.")
 
-    ongoingOrders = OrderStatus.objects.filter(Q(listedBy = currSeller_obj.seller_id) &
-        Q(status = 'Dispatched') | Q(status = 'Out for Delivery') | Q(status = 'Packed')).values()
+    ongoingOrders = OrderStatus.objects.filter(Q(listedBy = currSeller_obj.seller_id) & (Q(status = 'Dispatched') | Q(status = 'Out for Delivery') | Q(status = 'Packed'))).values()
+    
+    print(len(ongoingOrders))
 
     context = {
                 'seller_obj' : seller_obj,
