@@ -1,2 +1,2 @@
-django==4.0.4
-whitenoice==6.0.0
+django
+whitenoice
