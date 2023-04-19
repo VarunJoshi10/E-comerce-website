@@ -7,3 +7,5 @@ whitenoise==6.4.0
 asgiref==3.6.0
 certifi==2020.6.20
 pytz==2022.1
+django-allauth
+tkinter
