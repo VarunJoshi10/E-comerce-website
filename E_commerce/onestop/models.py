@@ -2,7 +2,7 @@ from email.policy import default
 from random import choices
 from secrets import choice
 from statistics import mode
-from tkinter.tix import INCREASING
+#from tkinter.tix import INCREASING
 from unicodedata import category
 from unittest.util import _MAX_LENGTH
 from xml.parsers.expat import model
